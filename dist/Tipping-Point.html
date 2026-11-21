@@ -1,0 +1,2311 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tipping Point</title>
+<meta name="description" content="Tipping Point — a change-leadership simulation on leading organisation-wide AI adoption.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='2' y='2' width='28' height='28' rx='8' fill='%23c2410c'/%3E%3Cpath d='M8 22c3-.4 5-2.6 6.4-6.2C15.8 12 17.6 9.6 24 9.4' fill='none' stroke='%23fff' stroke-width='2.6' stroke-linecap='round'/%3E%3Ccircle cx='24' cy='9.4' r='2.6' fill='%23fff'/%3E%3C/svg%3E">
+<style>
+:root {
+  --bg: #f6f4ef;
+  --surface: #ffffff;
+  --surface-2: #f0ede6;
+  --ink: #1d1f24;
+  --ink-2: #4a4f59;
+  --ink-3: #7b808b;
+  --line: #e2ded4;
+  --line-2: #cfc9bc;
+  --brand: #c2410c;
+  --brand-ink: #ffffff;
+  --brand-soft: #fde9dc;
+  --accent: #0f5c63;
+  --accent-soft: #dcefee;
+  --good: #1f7a45;
+  --good-soft: #def3e5;
+  --warn: #a15c00;
+  --warn-soft: #fbeccd;
+  --bad: #b42335;
+  --bad-soft: #f9dde1;
+  --st0: #b9b5ab;
+  --st1: #8fb4c9;
+  --st2: #4f8fb3;
+  --st3: #d9822b;
+  --st4: #1f7a45;
+  --lv-staff: #7a5cc2;
+  --lv-exec: #0f5c63;
+  --lv-mid: #9a4a8a;
+  --lv-front: #c2410c;
+  --shadow: 0 1px 2px rgba(30, 25, 15, .06), 0 4px 14px rgba(30, 25, 15, .06);
+  --shadow-lg: 0 12px 40px rgba(20, 15, 5, .18);
+  --radius: 12px;
+  --radius-sm: 8px;
+  --font: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #15171b; --surface: #1d2026; --surface-2: #252931; --ink: #eceae4; --ink-2: #b9bcc4; --ink-3: #8a8f99;
+    --line: #2f343d; --line-2: #3d434d; --brand: #f07a3c; --brand-ink: #1a0d05; --brand-soft: #3a2316;
+    --accent: #5cc3c9; --accent-soft: #173638; --good: #4cc27c; --good-soft: #173826; --warn: #e5a640; --warn-soft: #3a2d14;
+    --bad: #f0697b; --bad-soft: #3d1a20; --st0: #5d616a; --st1: #5f8aa3; --st2: #4d9acb; --st3: #e8994a; --st4: #4cc27c;
+    --lv-staff: #a68ae6; --lv-exec: #5cc3c9; --lv-mid: #d585c4; --lv-front: #f07a3c;
+    --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 4px 14px rgba(0, 0, 0, .25); --shadow-lg: 0 12px 40px rgba(0, 0, 0, .5);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #15171b; --surface: #1d2026; --surface-2: #252931; --ink: #eceae4; --ink-2: #b9bcc4; --ink-3: #8a8f99;
+  --line: #2f343d; --line-2: #3d434d; --brand: #f07a3c; --brand-ink: #1a0d05; --brand-soft: #3a2316;
+  --accent: #5cc3c9; --accent-soft: #173638; --good: #4cc27c; --good-soft: #173826; --warn: #e5a640; --warn-soft: #3a2d14;
+  --bad: #f0697b; --bad-soft: #3d1a20; --st0: #5d616a; --st1: #5f8aa3; --st2: #4d9acb; --st3: #e8994a; --st4: #4cc27c;
+  --lv-staff: #a68ae6; --lv-exec: #5cc3c9; --lv-mid: #d585c4; --lv-front: #f07a3c;
+  --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 4px 14px rgba(0, 0, 0, .25); --shadow-lg: 0 12px 40px rgba(0, 0, 0, .5);
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font); font-size: 15px; line-height: 1.5; -webkit-font-smoothing: antialiased; }
+h1, h2, h3, h4 { margin: 0 0 .4em; line-height: 1.2; }
+h1, h2 { font-family: var(--font-display); font-weight: 600; letter-spacing: -.01em; }
+h1 { font-size: clamp(28px, 4vw, 44px); }
+h2 { font-size: clamp(22px, 2.6vw, 28px); }
+h3 { font-size: 17px; font-weight: 650; }
+h4 { font-size: 13px; text-transform: uppercase; letter-spacing: .06em; color: var(--ink-3); font-weight: 650; }
+p { margin: 0 0 .8em; }
+a { color: var(--accent); }
+button { font: inherit; color: inherit; }
+.muted { color: var(--ink-3); }
+.small { font-size: 13px; }
+.tiny { font-size: 12px; }
+.hidden { display: none !important; }
+
+/* ---------- buttons ---------- */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: 1px solid var(--line-2); background: var(--surface); color: var(--ink);
+  padding: 9px 16px; border-radius: 999px; cursor: pointer; font-weight: 600; font-size: 14px; transition: background .15s, border-color .15s, transform .05s; text-decoration: none; }
+.btn:hover { background: var(--surface-2); }
+.btn:active { transform: translateY(1px); }
+.btn:disabled { opacity: .45; cursor: not-allowed; }
+.btn-primary { background: var(--brand); border-color: var(--brand); color: var(--brand-ink); }
+.btn-primary:hover { background: var(--brand); filter: brightness(1.06); }
+.btn-accent { background: var(--accent); border-color: var(--accent); color: var(--surface); }
+.btn-ghost { border-color: transparent; background: transparent; }
+.btn-lg { padding: 13px 24px; font-size: 15px; }
+.btn-sm { padding: 6px 12px; font-size: 13px; }
+.icon { width: 18px; height: 18px; flex: none; }
+
+/* ---------- layout ---------- */
+.app { min-height: 100vh; display: flex; flex-direction: column; }
+.topbar { position: sticky; top: 0; z-index: 20; background: color-mix(in srgb, var(--surface) 92%, transparent); backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--line); display: flex; align-items: center; gap: 16px; padding: 10px 20px; }
+.brand { display: flex; align-items: center; gap: 10px; font-weight: 700; letter-spacing: -.01em; white-space: nowrap; cursor: pointer; background: none; border: 0; padding: 0; }
+.brand-mark { width: 30px; height: 30px; }
+.brand small { display: block; font-weight: 500; color: var(--ink-3); font-size: 12px; }
+.nav { display: flex; gap: 2px; margin-left: auto; overflow-x: auto; scrollbar-width: none; }
+.nav::-webkit-scrollbar { display: none; }
+.nav button { background: none; border: 0; padding: 8px 12px; border-radius: 8px; cursor: pointer; font-weight: 600; color: var(--ink-2); white-space: nowrap; font-size: 14px; }
+.nav button:hover { background: var(--surface-2); color: var(--ink); }
+.nav button.active { background: var(--brand-soft); color: var(--brand); }
+.nav .badge-dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--brand); margin-left: 5px; vertical-align: middle; }
+.menu-wrap { position: relative; }
+.menu { position: absolute; right: 0; top: 42px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow-lg); min-width: 220px; padding: 6px; z-index: 30; }
+.menu button { display: flex; width: 100%; text-align: left; background: none; border: 0; padding: 9px 12px; border-radius: 8px; cursor: pointer; gap: 10px; align-items: center; }
+.menu button:hover { background: var(--surface-2); }
+.main { flex: 1; width: 100%; max-width: 1280px; margin: 0 auto; padding: 24px 20px 150px; }
+.main.full { max-width: none; padding: 0; }
+
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px; }
+.card + .card { margin-top: 16px; }
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.section-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; margin-bottom: 16px; flex-wrap: wrap; }
+.section-head p { margin: 0; color: var(--ink-2); }
+.pill { display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px; border-radius: 999px; font-size: 12px; font-weight: 600; background: var(--surface-2); color: var(--ink-2); white-space: nowrap; }
+.pill.brand { background: var(--brand-soft); color: var(--brand); }
+.pill.accent { background: var(--accent-soft); color: var(--accent); }
+.pill.good { background: var(--good-soft); color: var(--good); }
+.pill.warn { background: var(--warn-soft); color: var(--warn); }
+.pill.bad { background: var(--bad-soft); color: var(--bad); }
+
+/* ---------- status bar ---------- */
+.statusbar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 15; background: var(--surface); border-top: 1px solid var(--line); box-shadow: 0 -4px 18px rgba(0, 0, 0, .05);
+  display: grid; grid-template-columns: 1.1fr 1.6fr 1fr 1.1fr; }
+.stat { padding: 12px 20px 14px; border-right: 1px solid var(--line); min-width: 0; }
+.stat:last-child { border-right: 0; }
+.stat-label { display: flex; justify-content: space-between; align-items: baseline; font-size: 12px; font-weight: 650; text-transform: uppercase; letter-spacing: .05em; color: var(--ink-3); margin-bottom: 8px; gap: 8px; }
+.stat-label b { font-size: 15px; color: var(--ink); text-transform: none; letter-spacing: 0; font-variant-numeric: tabular-nums; }
+.bar { height: 10px; background: var(--surface-2); border-radius: 999px; overflow: hidden; }
+.bar > span { display: block; height: 100%; border-radius: 999px; background: var(--ink-2); transition: width .6s cubic-bezier(.2, .8, .2, 1); }
+.bar.cred > span { background: var(--accent); }
+.bar.cred.low > span { background: var(--bad); }
+.dots { display: flex; gap: 3px; align-items: center; position: relative; padding-bottom: 14px; }
+.dots i { flex: 1; height: 10px; border-radius: 3px; background: var(--surface-2); border: 1px solid var(--line); transition: background .4s; }
+.dots i.on { background: var(--st4); border-color: var(--st4); }
+.dots i.trial { background: color-mix(in srgb, var(--st3) 35%, var(--surface-2)); }
+.dots .cm-mark { position: absolute; bottom: 0; font-size: 10px; font-weight: 700; color: var(--brand); transform: translateX(-50%); white-space: nowrap; letter-spacing: .04em; }
+.dots .cm-mark::before { content: ''; position: absolute; left: 50%; bottom: 13px; width: 2px; height: 16px; background: var(--brand); transform: translateX(-50%); }
+.phases { display: flex; align-items: center; }
+.phases .ph { display: flex; flex-direction: column; align-items: center; flex: none; gap: 4px; font-size: 11px; font-weight: 650; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.phases .ph i { width: 14px; height: 14px; border-radius: 50%; border: 2px solid var(--line-2); background: var(--surface); }
+.phases .ph.done i { background: var(--accent); border-color: var(--accent); }
+.phases .ph.now i { background: var(--brand); border-color: var(--brand); box-shadow: 0 0 0 4px var(--brand-soft); }
+.phases .ph.now { color: var(--brand); }
+.phases .ln { flex: 1; height: 2px; background: var(--line-2); margin: 0 6px 18px; }
+.phases .ln.done { background: var(--accent); }
+
+/* ---------- home ---------- */
+.hero { padding: 56px 20px 32px; max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1.15fr .85fr; gap: 40px; align-items: center; }
+.hero p.lead { font-size: 18px; color: var(--ink-2); max-width: 560px; }
+.hero-art { aspect-ratio: 1 / .82; }
+.kicker { font-size: 13px; font-weight: 700; color: var(--brand); text-transform: uppercase; letter-spacing: .1em; margin-bottom: 12px; }
+.home-body { max-width: 1100px; margin: 0 auto; padding: 0 20px 80px; }
+.mode-tabs { display: inline-flex; background: var(--surface-2); border-radius: 999px; padding: 4px; gap: 4px; margin-bottom: 18px; }
+.mode-tabs button { border: 0; background: none; padding: 8px 18px; border-radius: 999px; font-weight: 650; cursor: pointer; color: var(--ink-2); }
+.mode-tabs button.active { background: var(--surface); color: var(--ink); box-shadow: var(--shadow); }
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field label { font-size: 13px; font-weight: 650; color: var(--ink-2); }
+.field input, .field textarea, .field select { font: inherit; padding: 10px 12px; border-radius: var(--radius-sm); border: 1px solid var(--line-2); background: var(--surface); color: var(--ink); }
+.field input:focus, .field textarea:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+
+.matrix { display: grid; grid-template-columns: 34px 1fr 1fr; grid-template-rows: auto 1fr 1fr; gap: 12px; }
+.matrix .axis-x { grid-column: 2 / 4; display: grid; grid-template-columns: 1fr 1fr; text-align: center; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--ink-3); }
+.matrix .axis-y { grid-row: 2 / 4; writing-mode: vertical-rl; transform: rotate(180deg); display: flex; justify-content: space-around; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--ink-3); }
+.scn { text-align: left; border: 1.5px solid var(--line); background: var(--surface); border-radius: var(--radius); padding: 18px; cursor: pointer; box-shadow: var(--shadow); transition: border-color .15s, transform .15s, box-shadow .15s; display: flex; flex-direction: column; gap: 6px; min-height: 170px; }
+.scn:hover { border-color: var(--brand); transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+.scn.selected { border-color: var(--brand); box-shadow: 0 0 0 3px var(--brand-soft); }
+.scn .num { font-size: 12px; font-weight: 700; color: var(--brand); letter-spacing: .08em; text-transform: uppercase; }
+.scn h3 { font-family: var(--font-display); font-size: 21px; font-weight: 600; margin: 0; }
+.scn p { margin: 0; color: var(--ink-2); font-size: 14px; }
+.scn .meta { margin-top: auto; display: flex; gap: 6px; flex-wrap: wrap; padding-top: 8px; }
+.resume { display: flex; align-items: center; gap: 16px; justify-content: space-between; flex-wrap: wrap; background: var(--accent-soft); border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent); }
+
+.roles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+.auth { display: inline-flex; gap: 2px; align-items: flex-end; }
+.auth i { width: 5px; border-radius: 1px; background: var(--line-2); display: inline-block; }
+.auth i:nth-child(1) { height: 6px; } .auth i:nth-child(2) { height: 9px; } .auth i:nth-child(3) { height: 12px; } .auth i:nth-child(4) { height: 15px; }
+.auth i.on { background: var(--brand); }
+.dl-options { display: grid; gap: 10px; }
+.dl-opt { text-align: left; border: 1.5px solid var(--line); background: var(--surface); border-radius: var(--radius); padding: 14px 16px; cursor: pointer; display: flex; flex-direction: column; gap: 4px; transition: border-color .15s, background .15s, transform .1s; }
+.dl-opt:hover { border-color: var(--brand); background: var(--brand-soft); }
+.dl-opt:active { transform: translateY(1px); }
+.dl-opt b { font-size: 15px; }
+.dl-opt span { font-size: 14px; color: var(--ink-2); }
+
+/* ---------- brief ---------- */
+.brief { display: grid; grid-template-columns: 1.3fr .7fr; gap: 20px; align-items: start; }
+.brief .prose p { font-size: 16px; color: var(--ink-2); }
+.brief .prose p:first-of-type::first-letter { font-family: var(--font-display); font-size: 3em; float: left; line-height: .9; padding: 4px 8px 0 0; color: var(--brand); }
+.quote { border-left: 3px solid var(--brand); padding: 4px 0 4px 14px; margin: 0 0 14px; }
+.quote b { display: block; font-size: 13px; }
+.quote span { color: var(--ink-2); font-style: italic; }
+ul.clean { margin: 0; padding-left: 18px; }
+ul.clean li { margin-bottom: 6px; }
+
+/* ---------- org chart ---------- */
+.org { overflow-x: auto; padding-bottom: 8px; }
+.org-inner { min-width: 1120px; }
+.org-col { min-width: 0; }
+.org-children .org-children { margin-left: 10px; padding-left: 8px; }
+.org-top { display: flex; flex-direction: column; align-items: center; position: relative; }
+.org-row { display: flex; justify-content: center; gap: 80px; position: relative; margin-top: 22px; }
+.org-cols { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1.15fr); gap: 14px; margin-top: 26px; position: relative; padding-top: 22px; border-top: 2px solid var(--line-2); }
+.org-col { display: flex; flex-direction: column; gap: 10px; position: relative; }
+.org-col::before { content: ''; position: absolute; top: -24px; left: 50%; width: 2px; height: 22px; background: var(--line-2); }
+.org-children { margin-left: 16px; padding-left: 12px; border-left: 2px solid var(--line-2); display: flex; flex-direction: column; gap: 10px; }
+.org-dept { font-size: 11px; font-weight: 700; color: var(--ink-3); text-transform: uppercase; letter-spacing: .07em; text-align: center; margin-bottom: -4px; }
+
+.pc { position: relative; display: flex; gap: 10px; align-items: center; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 9px 10px 9px 9px; box-shadow: var(--shadow);
+  cursor: pointer; text-align: left; width: 100%; transition: border-color .15s, box-shadow .15s, transform .1s; border-top: 3px solid var(--lvc, var(--line-2)); }
+.pc:hover { border-color: var(--ink-3); border-top-color: var(--lvc); }
+.pc.sel { box-shadow: 0 0 0 3px var(--brand); border-color: var(--brand); }
+.pc.dim { opacity: .45; }
+.pc.flash { animation: flash 1.4s ease-out; }
+@keyframes flash { 0% { box-shadow: 0 0 0 0 var(--good); } 30% { box-shadow: 0 0 0 6px color-mix(in srgb, var(--good) 40%, transparent); } 100% { box-shadow: var(--shadow); } }
+.pc.you { width: 230px; border-top-color: var(--brand); }
+.pc.wide { width: 250px; }
+.av { width: 38px; height: 38px; border-radius: 50%; flex: none; display: grid; place-items: center; font-weight: 700; font-size: 13px; color: #fff; background: var(--lvc, var(--ink-3)); letter-spacing: .02em; }
+.pc-body { min-width: 0; flex: 1; }
+.pc-name { font-weight: 650; font-size: 13.5px; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pc-title { font-size: 11.5px; color: var(--ink-3); line-height: 1.25; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.meter { display: flex; gap: 3px; margin-top: 6px; }
+.meter i { flex: 1; height: 5px; border-radius: 2px; background: var(--surface-2); border: 1px solid var(--line); }
+.meter i.on { border: 0; }
+.pc-stage { font-size: 11px; font-weight: 650; margin-top: 3px; }
+.pc-flags { position: absolute; top: -9px; right: 6px; display: flex; gap: 4px; }
+.flag { width: 20px; height: 20px; border-radius: 50%; display: grid; place-items: center; background: var(--surface); border: 1px solid var(--line-2); box-shadow: var(--shadow); }
+.flag svg { width: 12px; height: 12px; }
+.flag.res { background: var(--warn-soft); border-color: var(--warn); color: var(--warn); }
+.flag.fear { background: var(--bad-soft); border-color: var(--bad); color: var(--bad); }
+.flag.int { color: var(--accent); }
+.pc .check { position: absolute; top: 8px; left: -8px; width: 18px; height: 18px; border-radius: 5px; border: 2px solid var(--line-2); background: var(--surface); display: grid; place-items: center; }
+.pc.sel .check { background: var(--brand); border-color: var(--brand); color: #fff; }
+.legend { display: flex; gap: 14px; flex-wrap: wrap; font-size: 12px; color: var(--ink-2); align-items: center; }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.legend i { width: 12px; height: 12px; border-radius: 3px; display: inline-block; }
+
+/* ---------- stage summary ---------- */
+.stage-strip { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-bottom: 18px; }
+.stage-box { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 12px 14px; border-left: 4px solid var(--c); }
+.stage-box b { font-size: 26px; font-family: var(--font-display); display: block; line-height: 1.1; }
+.stage-box span { font-size: 12px; color: var(--ink-3); font-weight: 650; text-transform: uppercase; letter-spacing: .05em; }
+
+/* ---------- decide ---------- */
+.decide { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: 20px; align-items: start; }
+.lever-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.lever-table th { text-align: left; font-size: 11.5px; text-transform: uppercase; letter-spacing: .05em; color: var(--ink-3); font-weight: 700; padding: 8px 8px; border-bottom: 1px solid var(--line); position: sticky; top: 0; background: var(--surface); }
+.lever-table td { padding: 9px 8px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+.lever-table tr { cursor: pointer; }
+.lever-table tbody tr:hover td { background: var(--surface-2); }
+.lever-table tr.active td { background: var(--brand-soft); }
+.lever-table tr.locked td { color: var(--ink-3); }
+.lever-table .lname { font-weight: 600; }
+.lever-table .num { text-align: center; font-variant-numeric: tabular-nums; }
+.kind { display: inline-block; width: 8px; height: 8px; border-radius: 2px; margin-right: 8px; vertical-align: middle; }
+.kind.enabling { background: var(--accent); }
+.kind.substantive { background: var(--brand); }
+.lever-panel { position: sticky; top: 76px; }
+.lever-panel .desc { color: var(--ink-2); }
+.facts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 14px 0; }
+.fact { background: var(--surface-2); border-radius: var(--radius-sm); padding: 8px 10px; }
+.fact span { display: block; font-size: 11px; text-transform: uppercase; letter-spacing: .05em; color: var(--ink-3); font-weight: 700; }
+.fact b { font-size: 15px; }
+.stage-chips { display: flex; gap: 6px; flex-wrap: wrap; }
+.stage-chip { font-size: 12px; font-weight: 650; padding: 3px 10px; border-radius: 999px; border: 1px solid var(--line); color: var(--ink-3); }
+.stage-chip.on { color: #fff; border-color: transparent; }
+.notice { display: flex; gap: 10px; align-items: flex-start; padding: 10px 12px; border-radius: var(--radius-sm); font-size: 13.5px; margin: 10px 0; }
+.notice.warn { background: var(--warn-soft); color: var(--warn); }
+.notice.bad { background: var(--bad-soft); color: var(--bad); }
+.notice.info { background: var(--accent-soft); color: var(--accent); }
+.notice .icon { margin-top: 1px; }
+.picker { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; max-height: 470px; overflow-y: auto; padding: 10px 10px 4px 12px; margin: 0 -6px; }
+.picker .pc { padding: 7px 8px 7px 10px; }
+.picker .av { width: 30px; height: 30px; font-size: 11px; }
+.picker .pc-name { font-size: 13px; }
+.picker-head { display: flex; align-items: center; justify-content: space-between; margin-top: 14px; gap: 10px; flex-wrap: wrap; }
+.picker-tools { display: flex; gap: 6px; }
+.submit-row { display: flex; gap: 10px; align-items: center; justify-content: space-between; margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--line); flex-wrap: wrap; }
+.empty { text-align: center; padding: 40px 20px; color: var(--ink-3); }
+
+/* ---------- network ---------- */
+.net-wrap { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 20px; align-items: start; }
+.net svg { width: 100%; height: auto; display: block; }
+.net .node { cursor: pointer; }
+.net .node text { font-size: 12px; fill: var(--ink-2); font-family: var(--font); font-weight: 600; }
+.net .edge { fill: none; stroke-width: 1.4; opacity: .5; transition: opacity .2s, stroke-width .2s; }
+.net .edge.formal { stroke: var(--good); }
+.net .edge.friend { stroke: var(--warn); }
+.net .edge.both { stroke: var(--accent); }
+.net.focus .edge { opacity: .07; }
+.net.focus .edge.hl { opacity: 1; stroke-width: 2.6; }
+.net.focus .node.fade { opacity: .3; }
+
+/* ---------- modal ---------- */
+.overlay { position: fixed; inset: 0; background: rgba(15, 12, 8, .55); backdrop-filter: blur(3px); z-index: 50; display: grid; place-items: center; padding: 20px; animation: fade .2s; }
+@keyframes fade { from { opacity: 0; } }
+.modal { background: var(--surface); border-radius: 16px; box-shadow: var(--shadow-lg); width: min(720px, 100%); max-height: calc(100vh - 40px); overflow-y: auto; animation: rise .25s cubic-bezier(.2, .8, .2, 1); }
+@keyframes rise { from { transform: translateY(16px); opacity: 0; } }
+.modal-head { padding: 22px 26px 0; display: flex; justify-content: space-between; gap: 20px; align-items: flex-start; }
+.modal-body { padding: 18px 26px 6px; }
+.modal-foot { padding: 14px 26px 22px; display: flex; justify-content: flex-end; gap: 10px; }
+.news-kicker { font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-3); }
+.cred-box { text-align: center; flex: none; }
+.cred-box .n { width: 74px; height: 74px; border-radius: 14px; display: grid; place-items: center; font-family: var(--font-display); font-size: 36px; font-weight: 600; background: var(--surface-2); }
+.cred-box.up .n { background: var(--good-soft); color: var(--good); }
+.cred-box.down .n { background: var(--bad-soft); color: var(--bad); }
+.cred-box small { display: block; font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; margin-top: 6px; color: var(--ink-3); }
+.outcome { font-size: 19px; font-family: var(--font-display); margin: 6px 0 0; }
+.moved { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-top: 10px; }
+.moved-col h4 { display: flex; align-items: center; gap: 6px; }
+.moved-col h4 i { width: 10px; height: 10px; border-radius: 3px; display: inline-block; }
+.moved-col div { font-weight: 600; font-size: 14px; }
+.divider { height: 1px; background: var(--line); margin: 16px 0; }
+
+/* ---------- person drawer ---------- */
+.drawer { position: fixed; top: 0; right: 0; bottom: 0; width: min(400px, 100%); background: var(--surface); z-index: 55; box-shadow: var(--shadow-lg); padding: 24px; overflow-y: auto; animation: slide .25s cubic-bezier(.2, .8, .2, 1); border-left: 1px solid var(--line); }
+@keyframes slide { from { transform: translateX(30px); opacity: 0; } }
+.drawer .av { width: 56px; height: 56px; font-size: 18px; }
+.drawer-head { display: flex; gap: 14px; align-items: center; margin-bottom: 16px; }
+.chips { display: flex; gap: 6px; flex-wrap: wrap; }
+.locked-box { border: 1.5px dashed var(--line-2); border-radius: var(--radius-sm); padding: 14px; color: var(--ink-3); font-size: 14px; }
+
+/* ---------- history / charts ---------- */
+.hist-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.hist-table th { text-align: left; font-size: 11.5px; text-transform: uppercase; letter-spacing: .05em; color: var(--ink-3); padding: 8px; border-bottom: 1px solid var(--line); }
+.hist-table td { padding: 10px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+.chart svg { width: 100%; height: auto; display: block; overflow: visible; }
+.chart text { font-family: var(--font); fill: var(--ink-3); font-size: 11px; }
+.chart .grid { stroke: var(--line); }
+
+/* ---------- debrief ---------- */
+.debrief-hero { display: grid; grid-template-columns: auto 1fr; gap: 28px; align-items: center; }
+.ring { width: 150px; height: 150px; position: relative; }
+.ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+.ring .val { position: absolute; inset: 0; display: grid; place-items: center; text-align: center; }
+.ring .val b { font-family: var(--font-display); font-size: 42px; line-height: 1; display: block; }
+.ring .val span { font-size: 12px; color: var(--ink-3); font-weight: 650; }
+.breakdown { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 14px; }
+.insight { display: flex; gap: 12px; padding: 14px; border-radius: var(--radius-sm); background: var(--surface-2); }
+.insight .ic { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; flex: none; }
+.insight.good .ic { background: var(--good-soft); color: var(--good); }
+.insight.warn .ic { background: var(--warn-soft); color: var(--warn); }
+.insight b { display: block; margin-bottom: 2px; }
+.insight p { margin: 0; font-size: 14px; color: var(--ink-2); }
+.insights { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.timeline { display: flex; flex-wrap: wrap; gap: 6px; }
+.tl { font-size: 12px; padding: 4px 9px; border-radius: 6px; background: var(--surface-2); border-left: 3px solid var(--c, var(--line-2)); }
+.code-box { font-family: ui-monospace, 'SF Mono', Menlo, monospace; font-size: 12px; background: var(--surface-2); border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 12px; word-break: break-all; max-height: 120px; overflow-y: auto; }
+.reflect li { margin-bottom: 10px; }
+
+/* ---------- facilitator ---------- */
+.lb { width: 100%; border-collapse: collapse; font-size: 14px; }
+.lb th { text-align: left; font-size: 11.5px; text-transform: uppercase; letter-spacing: .05em; color: var(--ink-3); padding: 8px; border-bottom: 1px solid var(--line); cursor: pointer; white-space: nowrap; }
+.lb td { padding: 10px 8px; border-bottom: 1px solid var(--line); }
+.lb .rank { font-family: var(--font-display); font-size: 18px; font-weight: 600; width: 36px; }
+.bars .row { display: grid; grid-template-columns: 200px 1fr 40px; gap: 10px; align-items: center; margin-bottom: 6px; font-size: 13px; }
+.bars .track { height: 12px; background: var(--surface-2); border-radius: 4px; overflow: hidden; }
+.bars .track span { display: block; height: 100%; background: var(--accent); border-radius: 4px; }
+.drop { border: 2px dashed var(--line-2); border-radius: var(--radius); padding: 20px; text-align: center; color: var(--ink-3); transition: border-color .15s, background .15s; }
+.drop.over { border-color: var(--accent); background: var(--accent-soft); }
+
+/* ---------- playbook ---------- */
+.concept-matrix { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.concept-matrix .cell { border-radius: var(--radius-sm); padding: 14px; background: var(--surface-2); }
+.concept-matrix .cell.me { background: var(--brand-soft); outline: 2px solid var(--brand); }
+.ladder { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.ladder div { border-radius: var(--radius-sm); padding: 12px; color: #fff; }
+.ladder div b { display: block; }
+.ladder div span { font-size: 13px; opacity: .92; }
+
+.toast { position: fixed; bottom: 110px; left: 50%; transform: translateX(-50%); background: var(--ink); color: var(--bg); padding: 10px 18px; border-radius: 999px; font-weight: 600; font-size: 14px; z-index: 60; box-shadow: var(--shadow-lg); animation: rise .2s; }
+
+/* ---------- responsive ---------- */
+@media (max-width: 1000px) {
+  .roles { grid-template-columns: 1fr 1fr; }
+  .decide, .brief, .net-wrap, .hero { grid-template-columns: 1fr; }
+  .lever-panel { position: static; }
+  .hero-art { display: none; }
+  .insights { grid-template-columns: 1fr; }
+}
+@media (max-width: 760px) {
+  .topbar { padding: 8px 12px; gap: 8px; flex-wrap: wrap; }
+  .nav { order: 3; width: 100%; margin-left: 0; }
+  .brand small { display: none; }
+  .menu-wrap { margin-left: auto !important; }
+  .main { padding: 16px 16px 190px; }
+  .statusbar { grid-template-columns: 1fr 1fr; }
+  .stat { padding: 8px 12px 10px; }
+  .stat:nth-child(2) { border-right: 0; }
+  .stat:nth-child(1), .stat:nth-child(2) { border-bottom: 1px solid var(--line); }
+  .grid-2, .grid-3, .form-row, .concept-matrix, .ladder, .roles { grid-template-columns: 1fr; }
+  .matrix { grid-template-columns: 1fr; grid-template-rows: none; }
+  .matrix .axis-x, .matrix .axis-y { display: none; }
+  .stage-strip { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 5px; }
+  .stage-box { padding: 8px; }
+  .stage-box b { font-size: 20px; }
+  .stage-box span { font-size: 9.5px; }
+  .picker { grid-template-columns: 1fr; }
+  .facts { grid-template-columns: 1fr 1fr; }
+  .debrief-hero { grid-template-columns: 1fr; justify-items: center; text-align: center; }
+  .breakdown { grid-template-columns: 1fr 1fr; }
+  .bars .row { grid-template-columns: 120px 1fr 32px; }
+  .lever-table .hide-sm { display: none; }
+  .modal-head, .modal-body, .modal-foot { padding-left: 18px; padding-right: 18px; }
+}
+
+@media print {
+  .topbar, .statusbar, .no-print { display: none !important; }
+  .main { padding: 0; max-width: none; }
+  body { background: #fff; }
+  .card { box-shadow: none; break-inside: avoid; }
+}
+
+</style>
+</head>
+<body>
+<div id="app"></div>
+<noscript><p style="padding:24px;font-family:sans-serif">Tipping Point needs JavaScript to run.</p></noscript>
+<script>
+/* Tipping Point — scenario, people and lever data. Pure data, no DOM. */
+(function (root) {
+  'use strict';
+
+  const STAGES = ['Unaware', 'Aware', 'Interest', 'Trial', 'Adoption'];
+
+  const COMPANY = {
+    name: 'Saffron Route Logistics',
+    short: 'Saffron Route',
+    blurb:
+      'Saffron Route Logistics Pvt. Ltd. is a 28-year-old, family-promoted freight and last-mile company with about 1,400 employees and 22 hubs across India. Two years of fuel-price shocks squeezed margins hard; the company has only just returned to steady profit and its lenders are watching the debt covenants closely.',
+    program: [
+      'AI route and load optimisation across all 22 hubs',
+      'An AI dispatch copilot for planners and dispatchers',
+      'An AI customer-support agent for shipment queries',
+      'Predictive maintenance for the 900-truck fleet'
+    ]
+  };
+
+  /*
+   * Four role-based scenarios. authority: 1 Manager · 2 Director · 3 VP · 4 C-suite.
+   * reportsTo: the person (one of the 20) whose backing matters most to you, or null.
+   * dilemmas: [dilemmaId, week it surfaces].
+   */
+  const LEVELS = ['', 'Corporate Manager', 'Director', 'Vice President', 'C-suite'];
+  const SCENARIOS = [
+    {
+      id: 's1', number: 1, level: 'Corporate Manager', authority: 1, power: 'low', urgency: 'high',
+      title: 'The Frontline Fixer',
+      quadrant: 'Manager · Low power · High urgency',
+      strategy: 'Tactical opportunism: use the burning platform to prove value fast, win senior sponsors early, then let them scale it.',
+      role: 'Customer Experience Manager', reportsTo: 'kofi',
+      weeks: 80, startCred: 7,
+      intro: [
+        'You are a Customer Experience Manager in the Sales & Customer function, reporting to Kofi Mensah. You own the support playbook and the customer-satisfaction numbers, but not the support team. That belongs to your peer, Ananya Ghosh.',
+        'Since Nimbus Retail doubled its volumes, the support backlog has tripled: 9,000 open tickets, four-day response times, and Nimbus has started copying the CEO on complaints. You have seen what an AI support agent and a dispatch copilot could do. You have no budget and no mandate. You do have a burning platform, and a boss who will back you if you bring proof.',
+        'Your task: move a critical mass of the 20 key people below to genuine adoption within 80 weeks. Anything company-wide will need senior sponsors, and the critical calls along the way are yours to make.'
+      ],
+      voices: [
+        ['kofi', 'Bring me something that works on real tickets and I will put it in front of the leadership team.'],
+        ['ananya', 'My team is drowning. I want help, not another project that lands on us.'],
+        ['joanna', 'If a bot answers the calls, what happens to my twelve agents?'],
+        ['imran', 'There is no budget line for this. Show me the payback first.']
+      ],
+      dilemmas: [['budget', 8], ['boss', 20], ['incident', 34], ['union', 52]],
+      start: { ananya: 2, daniel: 3, joanna: 1 },
+      startNote: 'The backlog crisis has everyone in Sales & Customer talking. Ananya wants help, Daniel already drafts client replies with an AI assistant, and Joanna has heard rumours of a support bot.'
+    },
+    {
+      id: 's2', number: 2, level: 'Director', authority: 2, power: 'low', urgency: 'low',
+      title: 'The Builder',
+      quadrant: 'Director · Moderate power · Low urgency',
+      strategy: 'Cultural advocacy plus local alignment: build capability and proof inside your remit, then enlist VPs to take it company-wide.',
+      role: 'Director, Network Planning', reportsTo: 'devika',
+      weeks: 104, startCred: 7,
+      intro: [
+        'You are Director of Network Planning, reporting to Devika Rao, VP Operations. Your 40 planners design the routes and hub loads for all 22 hubs. You can reshape how your own area works, but anything that touches the hubs, the fleet or the budget needs a VP to sign up.',
+        'Nothing is broken. Volumes are steady and margins are recovering. But you can see that rivals adopting AI route optimisation will run 8–12% cheaper within three years. Devika is exhausted after the ERP rollout and is lukewarm at best. Push too hard and it looks like empire-building. Wait, and Saffron Route will be late.',
+        'Your task: move a critical mass of the 20 key people below to genuine adoption within 104 weeks, building from your own remit outwards.'
+      ],
+      voices: [
+        ['devika', 'After the ERP rollout, my team has no appetite for another system. Convince me it is worth it.'],
+        ['arjun', 'If we start now, we can do this properly instead of in a panic later.'],
+        ['rajesh', 'If the system plans the routes, what exactly is my job?'],
+        ['manpreet', 'AI does not know that the Bhiwandi gate shuts early on Fridays.']
+      ],
+      dilemmas: [['vendor', 12], ['boss', 30], ['star', 50], ['privacy', 72]],
+      start: { kofi: 1, sunita: 1, daniel: 1 },
+      startNote: 'With no crisis, AI is a side conversation. The tech team is experimenting, but most leaders have only heard about it in passing.'
+    },
+    {
+      id: 's3', number: 3, level: 'Vice President', authority: 3, power: 'high', urgency: 'high',
+      title: 'The Turnaround',
+      quadrant: 'VP · High power · High urgency',
+      strategy: 'Decisive command within your mandate: use substantive levers early, in parallel with enabling ones, while winning over peers you do not control.',
+      role: 'VP, Digital Operations', reportsTo: null,
+      weeks: 80, startCred: 7,
+      intro: [
+        'The CEO hired you three months ago as VP Digital Operations, with a clear brief: "make Saffron Route digital." Two weeks ago Nimbus Retail, 35% of revenue, told the CEO that rival Velocity Freight now offers AI-driven 15-minute delivery windows and automatic re-routing. Nimbus wants live ETA accuracy above 95% within 18 months and a credible plan within 90 days.',
+        'You have a formal mandate and a budget for the AI programme. But the VPs of Finance, Operations and People are your peers, not your reports, and at least one of them wanted your job. Your authority is real, but it is borrowed from the CEO, and every time you use it you spend some of the CEO\'s credibility as well as your own.',
+        'Your task: move a critical mass of the 20 key people below to genuine adoption within 80 weeks.'
+      ],
+      voices: [
+        ['imran', 'We are highly leveraged. Spending on AI now could put our covenants at risk.'],
+        ['devika', 'My hubs just finished an 18-month ERP rollout. My managers will refuse another big change.'],
+        ['kofi', 'Nimbus is already comparing us to Velocity. Without a credible answer we lose them.'],
+        ['sunita', 'People will hear "AI" and think "layoffs". We need to get ahead of that.']
+      ],
+      dilemmas: [['incident', 10], ['budget', 22], ['union', 38], ['privacy', 56]],
+      start: { gopal: 1, ravi: 1 },
+      startNote: 'The Nimbus threat is common knowledge. Rumours about AI and job cuts have already reached the night shift and the drivers.'
+    },
+    {
+      id: 's4', number: 4, level: 'C-suite', authority: 4, power: 'high', urgency: 'low',
+      title: 'The Transformer',
+      quadrant: 'C-suite · Full power · Low urgency',
+      strategy: 'Systemic alignment: rewire goals, skills, incentives and structure so the new way becomes the easy way, without a crisis to rally around.',
+      role: 'Chief Executive Officer', reportsTo: null,
+      weeks: 104, startCred: 8,
+      intro: [
+        'You are the CEO, three years into the role after the founder stepped back. The board is supportive and the business is stable for the first time in years.',
+        'At the annual strategy retreat you set out a five-year view: AI will separate the winners in logistics from everyone else. There is no crisis forcing your hand, which also means there is no crisis to rally people around. You hold every lever in the company, and every lever you pull sends a signal to 1,400 people.',
+        'Your task: move a critical mass of the 20 key people below to genuine adoption within 104 weeks. Your decisions on the critical calls will shape the culture long after the programme ends.'
+      ],
+      voices: [
+        ['imran', 'We have finally stabilised. Why gamble the recovery on something unproven?'],
+        ['devika', 'After the ERP rollout, my team has no appetite for another system.'],
+        ['arjun', 'If we start now, we can do this properly instead of in a panic later.'],
+        ['sunita', 'If we do this, we have to be honest with people about what it means for jobs.']
+      ],
+      dilemmas: [['board', 14], ['union', 32], ['incident', 52], ['star', 74]],
+      start: { kofi: 1, sameer: 1, daniel: 1 },
+      startNote: 'Your strategy-retreat speech reached the top team. Below them, AI is mostly something people read about in the news.'
+    }
+  ];
+
+  /*
+   * Critical decisions. Effects:
+   *  cred, weeks, gain: [[who, amount]] (who = id | 'boss' | 'all' | 'dept:X' | 'level:X'),
+   *  resist / unresist / fear / unfear: [ids], setback: [ids], lock: [[leverId, weeks]],
+   *  later: { after, cred, gain, note }  — a delayed consequence.
+   *  lowAuthority: { below, ...effects, note } — extra effects if your authority is below `below`.
+   */
+  const DILEMMAS = {
+    budget: {
+      title: 'The budget freeze', who: 'imran',
+      text: 'Imran Qureshi announces a freeze on all discretionary spending for two quarters to protect the debt covenants. The AI programme\'s training and vendor budget is on the list. You have 48 hours to respond.',
+      options: [
+        { label: 'Escalate and fight for the budget', detail: 'Take it over Imran\'s head and argue the programme is strategic.', tone: 'mixed',
+          effects: { cred: 0, resist: ['imran'], gain: [['kofi', 30]], lowAuthority: { below: 3, cred: -2, note: 'Escalating above your level made you look like you were going around the CFO.' } },
+          result: 'You keep the budget, but Imran now sees the programme as a threat to his credibility.', lesson: 'Winning a fight with a powerful resister can cost you a potential ally.' },
+        { label: 'Build the ROI case with Finance', detail: 'Accept a smaller budget and co-build a payback model with Neha Bansal.', tone: 'good',
+          effects: { weeks: 2, gain: [['imran', 70], ['neha', 80]], lock: [['academy', 12]] },
+          result: 'Speaking Finance\'s language took two weeks, but Imran is now curious rather than hostile. External training is on hold for 12 weeks.', lesson: 'Translate the change into the resister\'s own terms.' },
+        { label: 'Quietly move money from other projects', detail: 'Keep going by shifting spend from budgets you can influence.', tone: 'poor',
+          effects: { cred: -2, resist: ['harish'], later: { after: 10, cred: -1, note: 'Internal audit flagged the reallocated spend. Harish raised it at the leadership meeting.' } },
+          result: 'The work continues for now, but word gets around that you bent the rules.', lesson: 'Workarounds feel fast but quietly erode trust, and they surface later.' }
+      ]
+    },
+    boss: {
+      title: 'Your boss gets cold feet', who: 'boss',
+      text: 'In your one-to-one, {boss} says: "Maybe we slow this down until next year. I am getting heat from the other VPs, and I cannot spend all my capital on your project."',
+      options: [
+        { label: 'Ask what the heat is, and offer to carry it', detail: 'Find out exactly who is pushing back and offer to brief them yourself.', tone: 'good',
+          effects: { weeks: 1, gain: [['boss', 80], ['level:exec', 20]] },
+          result: '{bossFirst} relaxes once they see you will absorb the political cost. Two VPs hear the case directly from you.', lesson: 'Make it easy for your sponsor to keep sponsoring you.' },
+        { label: 'Go around your boss to the CEO', detail: 'The CEO said AI was a priority. Use that.', tone: 'poor',
+          effects: { cred: -2, resist: ['boss'], gain: [['lena', 40]] },
+          result: 'The CEO\'s office is sympathetic, but {bossFirst} feels betrayed and is now actively resisting.', lesson: 'Bypassing your boss trades a long-term sponsor for a short-term win.' },
+        { label: 'Agree to slow down', detail: 'Protect the relationship and pause for six weeks.', tone: 'mixed',
+          effects: { weeks: 6, gain: [['boss', 30]] },
+          result: 'The relationship is intact, but you have lost six weeks of momentum.', lesson: 'Patience protects relationships, but time is also a budget.' }
+      ]
+    },
+    incident: {
+      title: 'The AI gets it wrong', who: 'manpreet',
+      text: 'The AI route planner sends 14 trucks into a flooded underpass near Bhiwandi. Two Nimbus deliveries miss their window. Manpreet Singh says, loudly, "I told you so." The drivers\' WhatsApp groups are on fire.',
+      options: [
+        { label: 'Own it and fix it with the dispatchers', detail: 'Pause the planner for those routes and run the root-cause review with Manpreet\'s team.', tone: 'good',
+          effects: { weeks: 2, cred: 1, unresist: ['manpreet'], gain: [['manpreet', 90], ['level:front', 35], ['rajesh', 30]] },
+          result: 'Manpreet\'s local knowledge becomes a rule inside the planner. The frontline sees that their expertise matters.', lesson: 'Turn the expert sceptic into a co-designer, and failure becomes proof of listening.' },
+        { label: 'Call it a one-off data glitch', detail: 'Reassure everyone that it will not happen again and keep going.', tone: 'poor',
+          effects: { cred: -2, resist: ['gopal'], fear: ['ravi'], gain: [['level:front', -40]] },
+          result: 'Nobody believes it. The frontline now reads every AI decision as a risk to them.', lesson: 'Minimising a visible failure costs more credibility than the failure itself.' },
+        { label: 'Blame the vendor and switch tools', detail: 'Terminate the vendor and procure a new planner.', tone: 'mixed',
+          effects: { weeks: 4, lock: [['pilot', 8]], gain: [['victor', -30]] },
+          result: 'It looks decisive, but the switch costs four weeks and pilots are on hold for eight.', lesson: 'Changing the tool rarely fixes a problem of trust.' }
+      ]
+    },
+    union: {
+      title: 'Job fears go public', who: 'gopal',
+      text: 'The night-shift loaders send an open letter: "No AI without job guarantees." It reaches a local newspaper. Gopal Yadav is named as the organiser.',
+      options: [
+        { label: 'Meet them and co-design a reskilling path', detail: 'Sit down with Gopal and Sunita, and commit to retraining routes for affected roles.', tone: 'good',
+          effects: { weeks: 1, unfear: ['gopal', 'ravi', 'joanna'], gain: [['level:front', 55], ['sunita', 40]],
+            lowAuthority: { below: 3, cred: -1, gain: [['level:front', -25]], note: 'You could not commit company money on your own. The promise sounded thinner than you hoped.' } },
+          result: 'The tone changes from protest to negotiation. Fear of loss eases across the frontline.', lesson: 'Lower the cost of change instead of raising the pressure.' },
+        { label: 'Issue a firm statement: automation is necessary', detail: 'Make the business case clearly and publicly.', tone: 'poor',
+          effects: { cred: -1, resist: ['gopal', 'joanna'], gain: [['level:front', -40]] },
+          result: 'Logically sound, emotionally deaf. Resistance hardens on the floor.', lesson: 'Facts do not answer fear.' },
+        { label: 'Stay out of it and let HR handle it', detail: 'This is a labour-relations issue, not yours.', tone: 'mixed',
+          effects: { cred: -1, gain: [['sunita', 20]] },
+          result: 'HR calms it down, but people noticed you were silent on the question that mattered most to them.', lesson: 'Silence on the hardest question is itself a message.' }
+      ]
+    },
+    vendor: {
+      title: 'The shiny vendor', who: 'victor',
+      text: 'A global AI vendor offers its full logistics suite at 40% off, if you sign by Friday. Arjun is excited. Victor Das in Procurement is furious that he was not involved.',
+      options: [
+        { label: 'Sign now and lock in the discount', detail: 'Speed and price are too good to miss.', tone: 'poor',
+          effects: { cred: -1, resist: ['victor'], gain: [['arjun', 40]], later: { after: 16, cred: -1, note: 'The suite needs heavy customisation the discount did not cover. Finance is asking questions.' } },
+          result: 'You have the tools, and a procurement process you bypassed.', lesson: 'Shortcuts around gatekeepers come back as resistance.' },
+        { label: 'Run a four-week bake-off with Procurement', detail: 'Bring Victor and Mei Lin in to test two vendors on real routes.', tone: 'good',
+          effects: { weeks: 2, gain: [['victor', 80], ['meilin', 40], ['sameer', 30]] },
+          result: 'Victor co-owns the decision. Mei Lin\'s tests convince the planners.', lesson: 'Involve the people who can say no before they have to.' },
+        { label: 'Build it in-house', detail: 'Let Mei Lin\'s data team build a tailored model.', tone: 'mixed',
+          effects: { weeks: 3, gain: [['meilin', 60], ['arjun', 40], ['imran', -30]] },
+          result: 'The tech team is energised, but it is slower, and Finance worries about the cost.', lesson: 'Ownership builds commitment, but it costs time.' }
+      ]
+    },
+    star: {
+      title: 'Your best champion is poached', who: 'meilin',
+      text: 'Mei Lin Tan, your strongest technical champion, has an offer from Velocity Freight at 40% more pay. She tells you first.',
+      options: [
+        { label: 'Make her the AI programme lead', detail: 'Counter with a bigger role, not just money.', tone: 'mixed',
+          effects: { gain: [['meilin', 60], ['arjun', 20]], lowAuthority: { below: 3, weeks: 2, note: 'You had to get your boss and HR to approve the role, which took two weeks.' } },
+          result: 'She stays, and the programme has a visible leader. Some peers grumble about favouritism.', lesson: 'Recognition signals where power is flowing.' },
+        { label: 'Let her go gracefully', detail: 'Wish her well and document what she knows.', tone: 'poor',
+          effects: { setback: ['meilin'], gain: [['level:mid', -25], ['manpreet', -30]] },
+          result: 'Her departure tells everyone that the AI path is not valued here.', lesson: 'Losing a visible champion costs more than one person.' },
+        { label: 'Keep her and build a bench around her', detail: 'Match the offer partly, and pair her with Sameer and Fatima to spread her skills.', tone: 'good',
+          effects: { weeks: 2, gain: [['meilin', 40], ['sameer', 60], ['fatima', 60]] },
+          result: 'The programme no longer depends on one person, and two more people are learning fast.', lesson: 'Build capacity so the change does not collapse under its own weight.' }
+      ]
+    },
+    privacy: {
+      title: 'A data-privacy red flag', who: 'harish',
+      text: 'Harish Iyer discovers that the AI planner uses driver location data that drivers never consented to share for this purpose. He wants everything stopped.',
+      options: [
+        { label: 'Pause and fix consent with Legal', detail: 'Work with Harish on consent, and explain it to drivers through Ravi.', tone: 'good',
+          effects: { weeks: 2, unresist: ['harish'], unfear: ['ravi'], gain: [['harish', 90], ['ravi', 50]] },
+          result: 'Harish becomes the programme\'s guardian instead of its critic. Drivers feel respected.', lesson: 'Treat the gatekeeper\'s concern as a design requirement.' },
+        { label: 'Keep going and fix it later', detail: 'The deadline matters more. Patch consent in the next release.', tone: 'poor',
+          effects: { cred: -1, resist: ['harish'], later: { after: 12, cred: -2, gain: [['level:front', -30]], note: 'A driver complaint about tracking reached the regulator. Harish says he warned you.' } },
+          result: 'You keep the pace, and carry a risk that is now on record.', lesson: 'Ethical shortcuts are credibility loans with high interest.' },
+        { label: 'Get an external legal opinion', detail: 'Ask outside counsel before deciding.', tone: 'mixed',
+          effects: { weeks: 3, gain: [['harish', 40]] },
+          result: 'It is careful and defensible, but it costs three weeks, and Harish is only half-convinced.', lesson: 'Caution is not the same as engagement.' }
+      ]
+    },
+    board: {
+      title: 'The board wants ROI now', who: 'imran',
+      text: 'The board chair asks you for a hard ROI number at next month\'s meeting. Your honest estimate is payback in 30 months. Imran Qureshi is watching closely.',
+      options: [
+        { label: 'Give the honest number, with leading indicators', detail: '30-month payback, plus monthly adoption and service metrics the board can track.', tone: 'good',
+          effects: { cred: 1, gain: [['imran', 60], ['neha', 40]] },
+          result: 'The board respects the candour. Imran is reassured that you will not overpromise.', lesson: 'Credibility comes from realistic promises you can keep.' },
+        { label: 'Promise payback in 12 months', detail: 'Give them the number they want to hear.', tone: 'poor',
+          effects: { cred: 2, later: { after: 24, cred: -4, note: 'Twelve months on, the promised payback has not appeared. The board asks what else you overstated.' } },
+          result: 'The board is delighted, for now.', lesson: 'Overpromising borrows credibility from your future self.' },
+        { label: 'Ask for six months before committing', detail: 'Say it is too early to give a reliable number.', tone: 'mixed',
+          effects: { cred: -1, gain: [['imran', 20]] },
+          result: 'Prudent, but the board reads it as a lack of conviction.', lesson: 'Avoiding commitment can look like avoiding accountability.' }
+      ]
+    }
+  };
+
+  /* The 20 change targets (the key stakeholders of the AI programme). manager: null = top team. */
+  const PEOPLE = [
+    { id: 'lena', name: 'Lena Fischer', title: 'Chief of Staff', level: 'staff', dept: 'Office of the CEO', manager: null, openness: 1.1, influence: 3, resister: false, fear: false,
+      stance: 'Neutral connector', concern: 'Everyone talks to me before they talk to you. Right now they are asking whether this is real or just another slide deck.' },
+    { id: 'harish', name: 'Harish Iyer', title: 'Head of Legal & Compliance', level: 'staff', dept: 'Office of the CEO', manager: null, openness: 0.7, influence: 2, resister: true, fear: false,
+      stance: 'Cautious resister', concern: 'Customer data, driver tracking, liability when an AI re-routes a truck badly — nobody has thought this through, and I will be the one in court.' },
+    { id: 'imran', name: 'Imran Qureshi', title: 'Chief Financial Officer', level: 'exec', dept: 'Finance', manager: null, openness: 0.6, influence: 3, resister: true, fear: false,
+      stance: 'Resister', concern: 'We are one bad quarter away from breaching covenants. Every rupee on AI is a rupee not spent on cost-cutting that we know works.' },
+    { id: 'devika', name: 'Devika Rao', title: 'VP Operations', level: 'exec', dept: 'Operations', manager: null, openness: 0.65, influence: 3, resister: true, fear: false,
+      stance: 'Change-fatigued resister', concern: 'My hubs just survived an 18-month ERP rollout. If I announce another system, my managers will walk.' },
+    { id: 'arjun', name: 'Arjun Mehta', title: 'VP Technology', level: 'exec', dept: 'Technology', manager: null, openness: 1.4, influence: 2, resister: false, fear: false,
+      stance: 'Enthusiast', concern: 'I have wanted to do this for years. My worry is that we treat it as an IT project instead of a business change.' },
+    { id: 'sunita', name: 'Sunita Pillai', title: 'VP People', level: 'exec', dept: 'People', manager: null, openness: 1.15, influence: 2, resister: false, fear: false,
+      stance: 'Supportive', concern: 'People will hear "AI" and think "layoffs". Unless we say clearly what happens to jobs, they will fill the silence with fear.' },
+    { id: 'kofi', name: 'Kofi Mensah', title: 'VP Sales & Customer', level: 'exec', dept: 'Sales & Customer', manager: null, openness: 1.25, influence: 3, resister: false, fear: false,
+      stance: 'Supporter', concern: 'My clients are already asking why we feel slower than Velocity. I need something real to show them, not a roadmap.' },
+    { id: 'neha', name: 'Neha Bansal', title: 'Financial Controller', level: 'mid', dept: 'Finance', manager: 'imran', openness: 0.9, influence: 1, resister: false, fear: false,
+      stance: 'Pragmatist', concern: 'Show me the payback period and I will build the model. So far nobody has.' },
+    { id: 'victor', name: 'Victor Das', title: 'Procurement Manager', level: 'mid', dept: 'Finance', manager: 'imran', openness: 0.8, influence: 1, resister: false, fear: false,
+      stance: 'Sceptic', concern: 'Every vendor says their AI is magic. I have seen three "transformations" that were really expensive licences.' },
+    { id: 'priya', name: 'Priya Nair', title: 'Hub Operations Manager', level: 'mid', dept: 'Operations', manager: 'devika', openness: 0.95, influence: 2, resister: false, fear: false,
+      stance: 'Open but stretched', concern: 'I like the idea. I just do not have a single spare hour to learn a new tool during peak season.' },
+    { id: 'rajesh', name: 'Rajesh Kumar', title: 'Fleet Manager', level: 'mid', dept: 'Operations', manager: 'devika', openness: 0.8, influence: 2, resister: false, fear: true,
+      stance: 'Worried', concern: 'If the system plans the routes, what exactly is my job? I have 20 years of knowing which roads flood in July.' },
+    { id: 'meilin', name: 'Mei Lin Tan', title: 'Data Science Lead', level: 'mid', dept: 'Technology', manager: 'arjun', openness: 1.35, influence: 2, resister: false, fear: false,
+      stance: 'Innovator', concern: 'The models are the easy part. Getting dispatchers to trust them is the hard part.' },
+    { id: 'sameer', name: 'Sameer Joshi', title: 'IT Infrastructure Manager', level: 'mid', dept: 'Technology', manager: 'arjun', openness: 1.0, influence: 1, resister: false, fear: false,
+      stance: 'Neutral', concern: 'Half our hubs still run on patchy connectivity. Fine — but somebody has to fund the plumbing.' },
+    { id: 'fatima', name: 'Fatima Sheikh', title: 'Learning & Development Manager', level: 'mid', dept: 'People', manager: 'sunita', openness: 1.1, influence: 2, resister: false, fear: false,
+      stance: 'Supportive', concern: 'Training is not one workshop. People need to practise on real work, with someone beside them.' },
+    { id: 'daniel', name: 'Daniel Okafor', title: 'Key Accounts Manager', level: 'mid', dept: 'Sales & Customer', manager: 'kofi', openness: 1.05, influence: 1, resister: false, fear: false,
+      stance: 'Supporter', concern: 'Nimbus calls me every week. I need proof points I can put in front of them.' },
+    { id: 'ananya', name: 'Ananya Ghosh', title: 'Customer Support Manager', level: 'mid', dept: 'Sales & Customer', manager: 'kofi', openness: 1.0, influence: 2, resister: false, fear: false,
+      stance: 'Cautiously open', concern: 'An AI agent could clear the backlog. Or it could make angry customers angrier. I want to test it first.' },
+    { id: 'gopal', name: 'Gopal Yadav', title: 'Hub Supervisor (Night Shift)', level: 'front', dept: 'Operations', manager: 'priya', openness: 0.75, influence: 3, resister: false, fear: true,
+      stance: 'Afraid for his crew', concern: 'My loaders have families. Every time head office says "efficiency", someone loses a job.' },
+    { id: 'manpreet', name: 'Manpreet Singh', title: 'Senior Dispatcher', level: 'front', dept: 'Operations', manager: 'rajesh', openness: 0.6, influence: 3, resister: true, fear: false,
+      stance: 'Expert sceptic', concern: 'AI cannot do what I do. It does not know that the Bhiwandi gate shuts early on Fridays.' },
+    { id: 'joanna', name: "Joanna D'Souza", title: 'Support Team Lead', level: 'front', dept: 'Sales & Customer', manager: 'ananya', openness: 0.9, influence: 2, resister: false, fear: true,
+      stance: 'Anxious', concern: 'If a bot answers the calls, what happens to my twelve agents?' },
+    { id: 'ravi', name: 'Ravi Teja', title: 'Driver Coordinator', level: 'front', dept: 'Operations', manager: 'rajesh', openness: 0.8, influence: 2, resister: false, fear: true,
+      stance: 'Uneasy', concern: 'Drivers already feel watched. Tell them a computer is planning their day and they will push back hard.' }
+  ];
+
+
+  /*
+   * Where people stand before you act (stage index: 0 Unaware · 1 Aware · 2 Interest · 3 Trial · 4 Adoption).
+   * AI is already in the news, so this follows the diffusion curve: an innovator in the data team, an early adopter
+   * in technology, interested early-majority leaders, many people merely aware, and a frontline that is out of the loop.
+   * Each scenario's `start` overrides these values.
+   */
+  const BASE_START = {
+    meilin: 4, arjun: 3,
+    kofi: 2, sunita: 2, lena: 2, sameer: 2, daniel: 2,
+    imran: 1, devika: 1, harish: 1, neha: 1, victor: 1, priya: 1, fatima: 1, ananya: 1, rajesh: 1, manpreet: 1,
+    gopal: 0, ravi: 0, joanna: 0
+  };
+
+  /* Informal friendships (made symmetric by the engine). */
+  const FRIENDSHIPS = [
+    ['lena', 'sunita'], ['lena', 'kofi'], ['lena', 'priya'], ['lena', 'meilin'],
+    ['harish', 'imran'], ['harish', 'neha'],
+    ['imran', 'devika'], ['imran', 'victor'],
+    ['devika', 'rajesh'], ['devika', 'gopal'],
+    ['arjun', 'meilin'], ['arjun', 'sameer'], ['arjun', 'kofi'],
+    ['sunita', 'fatima'], ['sunita', 'joanna'],
+    ['kofi', 'daniel'],
+    ['neha', 'ananya'],
+    ['victor', 'rajesh'],
+    ['priya', 'gopal'], ['priya', 'fatima'],
+    ['rajesh', 'manpreet'], ['rajesh', 'ravi'],
+    ['meilin', 'manpreet'],
+    ['sameer', 'ravi'],
+    ['fatima', 'joanna'],
+    ['daniel', 'ananya'],
+    ['ananya', 'joanna'],
+    ['gopal', 'manpreet'], ['gopal', 'ravi']
+  ];
+
+  /*
+   * Levers.
+   * scope: number of people to select, or 'org'.
+   * stages: the adoption stages (indices into STAGES) the lever can move.
+   * strength: progress points added (100 = one full stage for an average person).
+   * spill: who else is influenced — 'friends', 'coworkers', 'both' or null.
+   * kind: 'enabling' (low disruption) or 'substantive' (high disruption).
+   * command: needs formal authority.
+   */
+  const LEVERS = [
+    { id: 'listen', name: 'Hold listening sessions', scope: 4, weeks: 1, reuse: 1, stages: [0, 1, 2], strength: 70, spill: 'friends', spillF: 0.5, kind: 'enabling',
+      desc: 'Private one-to-one conversations. You learn how each person really feels, what worries them and who they are friends with. Moves people before the trial stage, and a little of the conversation travels to their friends.' },
+    { id: 'memo', name: 'Send a leadership memo', scope: 'org', weeks: 1, reuse: 4, stages: [0, 1], strength: 55, spill: null, kind: 'enabling',
+      desc: 'An organisation-wide note setting out why the change matters and what is coming. Fast and cheap; only moves people who are unaware or merely aware.' },
+    { id: 'townhall', name: 'Hold an open town hall', scope: 'org', weeks: 3, reuse: 6, stages: [0, 1, 2], strength: 50, spill: null, kind: 'enabling',
+      desc: 'A two-way session where anyone can ask hard questions. Works on people before the trial stage.' },
+    { id: 'example', name: 'Lead by example', scope: 'org', weeks: 2, reuse: 8, stages: [0, 1, 2, 3], strength: 35, spill: null, kind: 'enabling', needsComms: true,
+      desc: 'You visibly use the AI tools in your own work and talk about what you learned. Builds credibility and nudges people at every stage — but only once the change has been communicated.' },
+    { id: 'expert', name: 'Bring in an outside expert', scope: 'org', weeks: 3, reuse: 8, stages: [0, 1, 2], strength: 40, spill: null, kind: 'enabling', credGain: 1,
+      desc: 'A respected outsider shows what AI is doing to logistics elsewhere. Can jolt people out of complacency and lend you credibility. Works before the trial stage.' },
+    { id: 'goals', name: 'Set goals & deadlines', scope: 'org', weeks: 4, reuse: 10, stages: [1, 2, 3], strength: 55, spill: null, kind: 'substantive', command: true, authority: 3,
+      desc: 'Announce hard targets (for example: 95% ETA accuracy by month 18) and dates. Focuses attention across the company — but it is a use of formal authority, and pressure without a reason breeds resentment.' },
+    { id: 'story', name: 'Share a win story', scope: 3, weeks: 1, reuse: 1, stages: [1, 2], strength: 55, spill: 'friends', spillF: 0.6, kind: 'enabling', needsAdopter: true,
+      desc: 'Tell three people a concrete story of the AI working — a route saved, a customer kept. Travels through friendship networks. You need at least one real adopter for there to be a story.' },
+    { id: 'pilot', name: 'Run a sandbox pilot', scope: 3, weeks: 4, reuse: 12, stages: [2, 3], strength: 105, spill: 'coworkers', spillF: 0.5, kind: 'enabling',
+      desc: 'Three people use the tools on real work in a safe sandbox. Learning by doing — the pivotal move from interest to trial. Their coworkers watch and learn too.' },
+    { id: 'champions', name: 'Build a champion coalition', scope: 3, weeks: 4, reuse: 4, stages: [2, 3], strength: 75, spill: 'friends', spillF: 0.5, kind: 'enabling',
+      desc: 'Recruit three people as visible champions with a real role in the programme. Works only on people already interested or trying, and pulls their friends along.' },
+    { id: 'workshop', name: 'Run a hands-on workshop', scope: 3, weeks: 2, reuse: 10, stages: [3], strength: 100, spill: 'friends', spillF: 0.4, kind: 'enabling', fearSensitive: true,
+      desc: 'In-house, practical training on real tasks. Helps people who are trying the tools make them part of their daily work.' },
+    { id: 'academy', name: 'Send to an external AI academy', scope: 3, weeks: 4, reuse: 12, stages: [3], strength: 125, spill: 'friends', spillF: 0.4, kind: 'enabling', fearSensitive: true,
+      desc: 'A deeper external programme with certification. Slower and costlier than a workshop, but more powerful for people in the trial stage.' },
+    { id: 'spotlight', name: 'Spotlight an adopter', scope: 1, weeks: 3, reuse: 10, stages: [1, 2, 3], strength: 60, spill: 'both', spillF: 1, kind: 'enabling', spotlight: true,
+      desc: 'Publicly recognise one person who has genuinely adopted. Signals where status is flowing; their coworkers and friends are influenced. Choose someone at the adoption stage.' },
+    { id: 'confront', name: 'Have a candid one-to-one', scope: 1, weeks: 1, reuse: 4, stages: [1, 2, 3], strength: 70, spill: 'friends', spillF: 0.4, kind: 'substantive', confront: true,
+      desc: 'A direct, private conversation with a resister about the behaviour that is blocking progress. Done with a real resister it can turn them; done with someone who is not resisting, it damages trust.' },
+    { id: 'dashboard', name: 'Publish a progress dashboard', scope: 'org', weeks: 2, reuse: 2, stages: [1, 2], strength: 35, spill: null, kind: 'enabling', needsAdopters: 3,
+      desc: 'Make progress visible on screens in every hub. Shifts norms for people who are aware or interested — but only once there is real progress (at least three adopters) to show.' },
+    { id: 'values', name: 'Reframe purpose & values', scope: 'org', weeks: 8, reuse: 20, stages: [2, 3], strength: 60, spill: null, kind: 'substantive',
+      desc: 'Rework the company\'s stated purpose and values to put customer reliability and continuous learning at the centre. Slow, but it directly moves people who are interested or trying.' },
+    { id: 'pledge', name: 'Announce a reskilling guarantee', scope: 'org', weeks: 3, reuse: 30, stages: [1, 2, 3], strength: 45, spill: null, kind: 'substantive', command: true, authority: 4, pledge: true,
+      desc: 'Commit publicly that no one will lose their job to the AI programme in the next two years, and fund retraining for every affected role. Lowers the cost of change for people held back by fear of loss. Needs formal authority.' },
+    { id: 'incentives', name: 'Redesign incentives', scope: 'org', weeks: 12, reuse: 20, stages: [2, 3], strength: 90, spill: null, kind: 'substantive', command: true, authority: 3, fearSensitive: true, needsPhase: 2, needsCred: 6,
+      desc: 'Change KPIs, bonuses and promotion criteria to reward AI-enabled ways of working. Powerful and organisation-wide, but needs high credibility and careful timing — pull it too early and it looks like coercion.' },
+    { id: 'restructure', name: 'Reorganise around AI', scope: 'org', weeks: 16, reuse: 20, stages: [1, 2, 3], strength: 100, spill: null, kind: 'substantive', command: true, authority: 4, fearSensitive: true, needsPhase: 2, needsCred: 7,
+      desc: 'Redraw reporting lines so planning, dispatch and support are organised around the AI workflow. The most powerful lever for locking change in — and the most dangerous if credibility or timing is wrong.' }
+  ];
+
+  const PHASES = ['Mobilise', 'Movement', 'Sustain'];
+
+  const CONCEPTS = {
+    matrix: [
+      { power: 'low', urgency: 'low', name: 'Cultural advocacy', text: 'Quietly build a movement from the bottom up through persuasion, peer modelling and social proof. Start with early adopters, highlight small wins, and let peer norms shift.' },
+      { power: 'high', urgency: 'low', name: 'Systemic alignment', text: 'Rewire the system so the new behaviour is the path of least resistance: goals, skills, incentives, structure. Start with less disruptive levers and preserve credibility.' },
+      { power: 'low', urgency: 'high', name: 'Tactical opportunism', text: 'Use the burning platform to prove a solution fast — pilots, data, quick wins — then hand it to senior sponsors who can scale it. Build the coalition, including the CEO, early.' },
+      { power: 'high', urgency: 'high', name: 'Decisive command', text: 'Frame the change as necessary for survival and move fast with clear direction. Use substantive levers early, in parallel with enabling ones, and protect credibility.' }
+    ],
+    costs: [
+      { name: 'Fear of loss', text: 'Of a job, status, or a familiar way of working.' },
+      { name: 'Finding a new identity', text: '"I am the person who knows the roads" has to become something new.' },
+      { name: 'New competencies', text: 'The fear of looking incompetent while learning.' },
+      { name: 'Time and energy', text: 'Learning takes hours that people do not have.' }
+    ]
+  };
+
+  const DATA = { STAGES, COMPANY, SCENARIOS, LEVELS, DILEMMAS, BASE_START, PEOPLE, FRIENDSHIPS, LEVERS, PHASES, CONCEPTS, CRITICAL_MASS: 16, MAX_CRED: 10 };
+
+  if (typeof module !== 'undefined' && module.exports) module.exports = DATA;
+  else root.TP_DATA = DATA;
+})(typeof window !== 'undefined' ? window : globalThis);
+
+</script>
+<script>
+/* Tipping Point — simulation engine. Pure functions over a serialisable state. */
+(function (root) {
+  'use strict';
+  const D = (typeof module !== 'undefined' && module.exports) ? require('./data.js') : root.TP_DATA;
+  const { STAGES, PEOPLE, FRIENDSHIPS, LEVERS, SCENARIOS, PHASES, CRITICAL_MASS, MAX_CRED, DILEMMAS, LEVELS } = D;
+  const clamp = c => Math.max(0, Math.min(MAX_CRED, c));
+
+  const LEVER = Object.fromEntries(LEVERS.map(l => [l.id, l]));
+  const PERSON = Object.fromEntries(PEOPLE.map(p => [p.id, p]));
+  const SCENARIO = Object.fromEntries(SCENARIOS.map(s => [s.id, s]));
+
+  /* ---------- relationships ---------- */
+  const FRIENDS = Object.fromEntries(PEOPLE.map(p => [p.id, new Set()]));
+  FRIENDSHIPS.forEach(([a, b]) => { FRIENDS[a].add(b); FRIENDS[b].add(a); });
+  const COWORKERS = Object.fromEntries(PEOPLE.map(p => [p.id, new Set()]));
+  PEOPLE.forEach(p => {
+    PEOPLE.forEach(q => {
+      if (p.id === q.id) return;
+      const sameBoss = p.manager !== null && p.manager === q.manager;
+      const boss = p.manager === q.id || q.manager === p.id;
+      const topTeam = p.manager === null && q.manager === null;
+      if (sameBoss || boss || topTeam) COWORKERS[p.id].add(q.id);
+    });
+  });
+  const friendsOf = id => [...FRIENDS[id]];
+  const coworkersOf = id => [...COWORKERS[id]];
+  /* Progress needed to leave each stage: later stages are harder. */
+  const THRESHOLD = [50, 110, 150, 195];
+  const isSenior = p => p.level === 'exec' || p.level === 'staff';
+
+  /* ---------- seeded RNG (mulberry32, state kept in game state) ---------- */
+  function rand(state) {
+    state.rng = (state.rng + 0x6D2B79F5) >>> 0;
+    let t = state.rng;
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  }
+  function hashSeed(str) {
+    let h = 2166136261 >>> 0;
+    for (const c of String(str)) { h ^= c.charCodeAt(0); h = Math.imul(h, 16777619) >>> 0; }
+    return h >>> 0;
+  }
+
+  /* ---------- state ---------- */
+  function newGame(scenarioId, opts = {}) {
+    const sc = SCENARIO[scenarioId];
+    if (!sc) throw new Error('Unknown scenario ' + scenarioId);
+    const seedText = opts.seed != null ? String(opts.seed) : String(Date.now()) + Math.random();
+    const state = {
+      version: 1,
+      scenarioId,
+      seed: seedText,
+      rng: hashSeed(seedText + '|' + scenarioId),
+      mode: opts.mode || 'single',
+      team: opts.team || '',
+      session: opts.session || '',
+      week: 0,
+      maxWeeks: sc.weeks,
+      cred: sc.startCred,
+      phase: 0,
+      communicated: false,
+      pledged: false,
+      ended: false,
+      endReason: null,
+      people: Object.fromEntries(PEOPLE.map(p => [p.id, {
+        stage: 0, prog: 0, resisting: p.resister, fearful: p.fear,
+        interviewed: false
+      }])),
+      lastUsed: {},      // leverId -> week the lever became reusable from (end week)
+      attempts: {},      // leverId -> count
+      history: [],       // decisions
+      timeline: [],
+      events: { escalation: false },
+      pending: null,     // id of a critical decision awaiting the player's choice
+      dilemmaIdx: 0,     // index of the next scenario dilemma
+      scheduled: [],     // delayed consequences
+      choices: []        // [dilemmaId, optionIndex, tone]
+    };
+    /* Realistic starting point: scenario overrides on top of the base distribution, with some progress
+       already built up inside each stage so people do not all sit at exactly the same point. */
+    const start = Object.assign({}, D.BASE_START || {}, sc.start || {});
+    Object.entries(start).forEach(([id, st]) => {
+      const p = state.people[id];
+      if (!p) return;
+      p.stage = st;
+      p.prog = st < 4 ? Math.round(rand(state) * THRESHOLD[st] * 0.4) : 0;
+    });
+    state.timeline = [countsOf(state, 0)];
+    return state;
+  }
+  function clone(s) { return JSON.parse(JSON.stringify(s)); }
+
+  function countsOf(state, week) {
+    const c = [0, 0, 0, 0, 0];
+    Object.values(state.people).forEach(p => c[p.stage]++);
+    return { week: week != null ? week : state.week, counts: c, cred: state.cred, phase: state.phase };
+  }
+  const adopters = state => Object.values(state.people).filter(p => p.stage === 4).length;
+  const atLeast = (state, st) => Object.values(state.people).filter(p => p.stage >= st).length;
+  const seniorSponsors = state => PEOPLE.filter(p => isSenior(p) && state.people[p.id].stage >= 3).length;
+
+  /* Senior sponsors you need before pulling a command lever above your authority level. */
+  function sponsorsNeeded(state, leverId) {
+    const L = LEVER[leverId], sc = SCENARIO[state.scenarioId];
+    if (!L.command) return 0;
+    const need = L.authority || 3;
+    return sc.authority >= need ? 0 : Math.min(3, (need - sc.authority) * 2);
+  }
+  function resolveWho(state, who) {
+    const sc = SCENARIO[state.scenarioId];
+    if (who === 'boss') return sc.reportsTo ? [sc.reportsTo] : [];
+    if (who === 'all') return PEOPLE.map(p => p.id);
+    if (who.startsWith('dept:')) return PEOPLE.filter(p => p.dept === who.slice(5)).map(p => p.id);
+    if (who.startsWith('level:')) {
+      const lv = who.slice(6);
+      return PEOPLE.filter(p => p.level === lv || (lv === 'exec' && p.level === 'staff')).map(p => p.id);
+    }
+    return PERSON[who] ? [who] : [];
+  }
+  /* Add progress (may be negative); a person moves at most one stage per call. */
+  function advance(state, gains, moved) {
+    Object.entries(gains).forEach(([id, amt]) => {
+      const s = state.people[id];
+      if (s.stage >= 4) return;
+      s.prog = Math.max(0, s.prog + amt);
+      const need = THRESHOLD[s.stage];
+      if (s.prog >= need) {
+        s.prog = Math.min(s.prog - need, 20);
+        s.stage += 1;
+        (moved[s.stage] = moved[s.stage] || []).push(id);
+      }
+      if (s.stage >= 4) s.prog = 0;
+    });
+  }
+  function fillText(state, text) {
+    const sc = SCENARIO[state.scenarioId];
+    const boss = sc.reportsTo ? PERSON[sc.reportsTo] : null;
+    return String(text).replace(/\{boss\}/g, boss ? boss.name : 'your boss').replace(/\{bossFirst\}/g, boss ? boss.name.split(' ')[0] : 'Your boss');
+  }
+  /* Shared end-of-turn processing: delayed consequences, events, phase, end, next dilemma. */
+  function finalize(state, decision) {
+    const sc = SCENARIO[state.scenarioId];
+    const due = state.scheduled.filter(x => x.week <= state.week);
+    state.scheduled = state.scheduled.filter(x => x.week > state.week);
+    due.forEach(x => {
+      if (x.cred) state.cred = clamp(state.cred + x.cred);
+      if (x.gain) {
+        const g = {};
+        x.gain.forEach(([who, amt]) => resolveWho(state, who).forEach(id => { g[id] = (g[id] || 0) + amt; }));
+        advance(state, g, decision.moved);
+      }
+      decision.events.push(x.note);
+    });
+    if (sc.urgency === 'high' && !state.events.escalation && state.week >= 26) {
+      state.events.escalation = true;
+      if (atLeast(state, 3) < 5) {
+        state.cred = clamp(state.cred - 1);
+        decision.events.push('Week 26 check-in: Nimbus Retail sees little real progress and escalates to the board. Your credibility takes a hit.');
+      } else {
+        decision.events.push('Week 26 check-in: Nimbus Retail sees people genuinely trying the tools and agrees to keep its volumes in place for now.');
+      }
+    }
+    decision.credAfter = state.cred;
+    decision.credDelta = state.cred - decision.credBefore;
+    if (state.phase === 0 && atLeast(state, 1) >= 18 && atLeast(state, 2) >= 10) state.phase = 1;
+    if (state.phase === 1 && (adopters(state) >= 7 || atLeast(state, 3) >= 14)) state.phase = 2;
+    if (adopters(state) >= CRITICAL_MASS) { state.ended = true; state.endReason = 'critical-mass'; }
+    else if (state.cred <= 0) { state.ended = true; state.endReason = 'credibility'; }
+    else if (state.week >= state.maxWeeks) { state.ended = true; state.endReason = 'time'; }
+    if (!state.ended && !state.pending) {
+      const next = sc.dilemmas[state.dilemmaIdx];
+      if (next && state.week >= next[1]) { state.pending = next[0]; state.dilemmaIdx += 1; decision.dilemma = next[0]; }
+    }
+    state.history.push(decision);
+    state.timeline.push(countsOf(state));
+  }
+
+  /* ---------- availability ---------- */
+  function availability(state, leverId) {
+    const L = LEVER[leverId];
+    const sc = SCENARIO[state.scenarioId];
+    if (state.ended) return { ok: false, reason: 'The simulation has ended.' };
+    if (state.pending) return { ok: false, reason: 'Resolve the critical decision first.' };
+    const readyAt = state.lastUsed[leverId];
+    if (readyAt != null && state.week < readyAt) {
+      return { ok: false, reason: `Available again in week ${readyAt} (${readyAt - state.week} more week${readyAt - state.week === 1 ? '' : 's'}).`, cooldown: readyAt - state.week };
+    }
+    if (state.week + L.weeks > state.maxWeeks) return { ok: false, reason: 'Not enough weeks left to implement this lever.' };
+    if (L.pledge && state.pledged) return { ok: false, reason: 'You have already made this commitment.' };
+    return { ok: true, sponsorsNeeded: sponsorsNeeded(state, leverId) };
+  }
+
+  /* ---------- core: apply a lever ---------- */
+  function applyLever(prev, leverId, targetIds = []) {
+    const L = LEVER[leverId];
+    if (!L) throw new Error('Unknown lever ' + leverId);
+    const av = availability(prev, leverId);
+    if (!av.ok) throw new Error(av.reason);
+    const sc = SCENARIO[prev.scenarioId];
+    const state = clone(prev);
+    const before = Object.fromEntries(Object.entries(state.people).map(([k, v]) => [k, v.stage]));
+    const credBefore = state.cred;
+    const phaseBefore = state.phase;
+
+    let direct = L.scope === 'org' ? PEOPLE.map(p => p.id) : [...new Set(targetIds)];
+    if (L.scope !== 'org' && (direct.length < 1 || direct.length > L.scope)) {
+      throw new Error(`Select between 1 and ${L.scope} ${L.scope === 1 ? 'person' : 'people'}.`);
+    }
+    const fullSelection = L.scope === 'org' || direct.length === L.scope;
+
+    state.week += L.weeks;
+    state.lastUsed[leverId] = state.week + L.reuse;
+    state.attempts[leverId] = (state.attempts[leverId] || 0) + 1;
+
+    let credDelta = 0;
+    let mult = 1;
+    let outcome = 'success';           // success | partial | mistimed | blocked
+    let noEffect = false;
+    const notes = [];
+    const credFactor = 0.55 + 0.045 * state.cred;
+
+    /* --- authority (command levers) --- */
+    if (L.command) {
+      const needS = sponsorsNeeded(state, leverId);
+      if (needS > 0) {
+        if (seniorSponsors(state) < needS) {
+          outcome = 'blocked';
+          notes.push(`This lever needs ${LEVELS[L.authority]}-level authority. As a ${LEVELS[sc.authority]}, you needed ${needS} senior sponsors (executives or CEO staff) at the trial stage or beyond, and you had ${seniorSponsors(state)}. People saw it as overreach.`);
+          credDelta -= 2;
+        } else {
+          mult *= 0.85;
+          notes.push('Your senior sponsors lent you the authority to pull this lever.');
+        }
+      }
+      if (outcome !== 'blocked' && sc.urgency === 'low' && state.phase === 0 && !L.pledge) {
+        mult *= 0.6; credDelta -= 1;
+        notes.push('With no visible crisis, pressure this early felt arbitrary. It worked less well and cost you credibility.');
+      }
+      if (outcome !== 'blocked' && sc.urgency === 'high' && leverId === 'goals' && state.phase <= 1) {
+        mult *= 1.2;
+        notes.push('The Nimbus deadline made hard targets feel necessary, not arbitrary.');
+      }
+    }
+    if (sc.urgency === 'low' && L.kind === 'enabling') mult *= 1.1;
+    /* Your boss's stance colours everything you do. */
+    if (sc.reportsTo) {
+      const b = state.people[sc.reportsTo];
+      if (b.resisting && !PERSON[sc.reportsTo].resister) mult *= 0.85;
+      else if (b.stage >= 3) mult *= 1.1;
+    }
+    /* Repetition wears off: each repeat of the same lever is less novel. */
+    const repeats = state.attempts[leverId] - 1;
+    if (repeats > 0) mult *= Math.pow(L.scope === 'org' ? 0.7 : 0.85, repeats);
+
+    /* --- timing / prerequisites --- */
+    if (outcome !== 'blocked') {
+      if (L.needsComms && !state.communicated) {
+        outcome = 'mistimed'; credDelta -= 1;
+        notes.push('Nobody yet knows what change you are modelling. Communicate the change first.'); noEffect = true;
+      } else if (L.needsAdopter && adopters(state) < 1) {
+        outcome = 'mistimed'; credDelta -= 1;
+        notes.push('There is no real adopter yet, so there is no true story to tell. It came across as spin.'); noEffect = true;
+      } else if (L.needsAdopters && adopters(state) < L.needsAdopters) {
+        outcome = 'mistimed'; credDelta -= 1;
+        notes.push(`There is not enough progress to show yet (you need at least ${L.needsAdopters} adopters). The dashboard looked empty.`); noEffect = true;
+      } else if (L.needsPhase != null && state.phase < L.needsPhase) {
+        outcome = 'mistimed'; credDelta -= 2; mult *= 0.2;
+        notes.push(`This lever is only effective in the ${PHASES[L.needsPhase]} phase. Pulled now, it looked like coercion before people were ready.`);
+      } else if (L.needsCred != null && state.cred < L.needsCred) {
+        outcome = 'mistimed'; credDelta -= 2; mult *= 0.3;
+        notes.push(`You need credibility of at least ${L.needsCred} to pull this lever well.`);
+      }
+    }
+
+    const gains = {}; // id -> {direct:bool, amount}
+    const addGain = (id, amt, isDirect) => {
+      if (amt <= 0) return;
+      if (!gains[id]) gains[id] = { direct: false, amount: 0 };
+      gains[id].amount += amt;
+      gains[id].direct = gains[id].direct || isDirect;
+    };
+    const receptivity = (id, L) => {
+      const p = PERSON[id], s = state.people[id];
+      let r = p.openness;
+      /* Broadcasts can create awareness and interest, but rarely adoption. */
+      if (L.scope === 'org' && s.stage === 3 && !L.command && L.id !== 'values') r *= 0.5;
+      if (s.resisting) r *= (L.id === 'listen' ? 0.7 : 0.35);
+      if (s.fearful && (L.fearSensitive || L.id === 'pilot' || L.id === 'goals')) r *= 0.45;
+      return r;
+    };
+    const jitter = () => 0.85 + rand(state) * 0.3;
+    const inStages = (id, stages) => stages.includes(state.people[id].stage);
+
+    let revealed = [];
+    if (outcome !== 'blocked' && !noEffect) {
+      /* --- special levers --- */
+      if (L.id === 'listen') {
+        direct.forEach(id => {
+          if (!state.people[id].interviewed) { state.people[id].interviewed = true; revealed.push(id); }
+        });
+      }
+      if (L.id === 'memo' || L.id === 'townhall') state.communicated = true;
+      if (L.pledge) {
+        state.pledged = true;
+        Object.keys(state.people).forEach(id => {
+          if (state.people[id].fearful) {
+            state.people[id].fearful = false;
+            if (inStages(id, L.stages)) addGain(id, L.strength * PERSON[id].openness * credFactor * mult * jitter(), true);
+          }
+        });
+        notes.push('People who were held back by fear of losing their jobs can now engage with the change on its merits.');
+      }
+
+      if (L.confront) {
+        const id = direct[0];
+        const s = state.people[id];
+        if (!s.resisting) {
+          outcome = 'mistimed'; credDelta -= 1;
+          notes.push(`${PERSON[id].name} was not actually resisting. Confronting them felt unfair and damaged trust.`);
+        } else if (s.stage < 1) {
+          outcome = 'mistimed'; credDelta -= 1;
+          notes.push(`${PERSON[id].name} does not even know about the change yet. There is nothing to confront.`);
+        } else {
+          s.resisting = false;
+          const powerMult = sc.authority <= 1 ? 0.7 : sc.authority === 2 ? 0.85 : 1;
+          addGain(id, L.strength * PERSON[id].openness * credFactor * powerMult * jitter(), true);
+          friendsOf(id).forEach(f => { if (inStages(f, L.stages)) addGain(f, L.strength * L.spillF * receptivity(f, L) * credFactor * jitter(), false); });
+          notes.push(`${PERSON[id].name} heard you out. Their active resistance has ended.`);
+        }
+      } else if (L.spotlight) {
+        const id = direct[0];
+        if (state.people[id].stage !== 4) {
+          outcome = 'mistimed'; credDelta -= 1;
+          notes.push(`${PERSON[id].name} has not adopted yet. Recognising them now looked like favouritism.`);
+        } else {
+          const circle = new Set([...friendsOf(id), ...coworkersOf(id)]);
+          circle.forEach(f => { if (inStages(f, L.stages)) addGain(f, L.strength * receptivity(f, L) * credFactor * mult * jitter(), false); });
+        }
+      } else if (!L.pledge) {
+        /* --- standard levers --- */
+        let anyApplicable = false;
+        direct.forEach(id => {
+          if (!inStages(id, L.stages)) return;
+          anyApplicable = true;
+          addGain(id, L.strength * receptivity(id, L) * credFactor * mult * jitter(), true);
+        });
+        if (L.spill && L.scope !== 'org') {
+          direct.forEach(id => {
+            if (!inStages(id, L.stages) && L.id !== 'listen') return;
+            const pool = L.spill === 'friends' ? friendsOf(id) : L.spill === 'coworkers' ? coworkersOf(id) : [...new Set([...friendsOf(id), ...coworkersOf(id)])];
+            const infl = 0.75 + 0.25 * PERSON[id].influence;
+            pool.forEach(f => {
+              if (direct.includes(f) || !inStages(f, L.stages)) return;
+              addGain(f, L.strength * L.spillF * infl * receptivity(f, L) * credFactor * mult * jitter(), false);
+            });
+          });
+        }
+        if (!anyApplicable && outcome !== 'blocked') {
+          if (outcome === 'success') credDelta -= 1;
+          outcome = 'mistimed';
+          const st = L.stages.map(i => STAGES[i].toLowerCase());
+          notes.push(`This lever only works on people in the ${st.length > 1 ? st.slice(0, -1).join(', ') + ' or ' + st.slice(-1) : st[0]} stage${st.length > 1 ? 's' : ''}. None of the people it reached were there.`);
+        } else if (outcome === 'success' && L.scope !== 'org') {
+          const wasted = direct.filter(id => !inStages(id, L.stages));
+          if (wasted.length) {
+            outcome = 'partial';
+            notes.push(`${wasted.map(id => PERSON[id].name.split(' ')[0]).join(', ')} ${wasted.length > 1 ? 'were' : 'was'} not at a stage this lever can move.`);
+          }
+        }
+      }
+    }
+
+    /* --- apply progress (max one stage per lever per person) --- */
+    const moved = {};
+    advance(state, Object.fromEntries(Object.entries(gains).map(([k, g]) => [k, g.amount])), moved);
+
+    /* --- credibility --- */
+    if (outcome === 'success' || outcome === 'partial') {
+      if (L.id === 'example') credDelta += 1;
+      if (L.credGain) credDelta += L.credGain;
+    }
+    if (!fullSelection && L.scope !== 'org' && outcome !== 'blocked') notes.push(`You selected fewer people than this lever allows (${direct.length} of ${L.scope}).`);
+    state.cred = clamp(state.cred + credDelta);
+
+    const decision = {
+      n: state.history.length + 1,
+      lever: leverId,
+      targets: L.scope === 'org' ? 'org' : direct,
+      weekStart: prev.week,
+      weekEnd: state.week,
+      phaseAtStart: phaseBefore,
+      outcome,
+      credBefore,
+      credAfter: state.cred,
+      credDelta: 0,
+      moved,
+      directImpacted: Object.values(gains).filter(g => g.direct).length,
+      indirectImpacted: Object.values(gains).filter(g => !g.direct).length,
+      revealed,
+      notes,
+      events: []
+    };
+    finalize(state, decision);
+    return { state, decision };
+  }
+
+  /* Pause for one week (keeps the player from ever being stuck behind cooldowns). */
+  function wait(prev) {
+    if (prev.ended) throw new Error('The simulation has ended.');
+    if (prev.pending) throw new Error('Resolve the critical decision first.');
+    const state = clone(prev);
+    state.week += 1;
+    const decision = { n: state.history.length + 1, lever: 'wait', targets: [], weekStart: prev.week, weekEnd: state.week,
+      phaseAtStart: prev.phase, outcome: 'wait', credBefore: prev.cred, credAfter: prev.cred, credDelta: 0, moved: {},
+      directImpacted: 0, indirectImpacted: 0, revealed: [], notes: ['You let a week pass to observe.'], events: [] };
+    finalize(state, decision);
+    return { state, decision };
+  }
+
+  /* Resolve the pending critical decision with option `idx`. */
+  function resolveDilemma(prev, idx) {
+    if (!prev.pending) throw new Error('No critical decision is pending.');
+    const id = prev.pending, dl = DILEMMAS[id], opt = dl.options[idx];
+    if (!opt) throw new Error('Unknown option.');
+    const sc = SCENARIO[prev.scenarioId];
+    const state = clone(prev);
+    state.pending = null;
+    const decision = { n: state.history.length + 1, lever: 'dilemma', dilemma: id, option: idx, tone: opt.tone, targets: [],
+      weekStart: prev.week, weekEnd: prev.week, phaseAtStart: prev.phase, outcome: 'dilemma', credBefore: prev.cred, credAfter: prev.cred,
+      credDelta: 0, moved: {}, directImpacted: 0, indirectImpacted: 0, revealed: [], notes: [], events: [],
+      result: fillText(state, opt.result), lesson: opt.lesson };
+    const ids = list => (list || []).flatMap(w => resolveWho(state, w));
+    const apply = eff => {
+      if (eff.cred) state.cred = clamp(state.cred + eff.cred);
+      if (eff.weeks) state.week = Math.min(state.maxWeeks, state.week + eff.weeks);
+      ids(eff.unresist).forEach(p => { state.people[p].resisting = false; });
+      ids(eff.resist).forEach(p => { state.people[p].resisting = true; });
+      ids(eff.fear).forEach(p => { state.people[p].fearful = true; });
+      ids(eff.unfear).forEach(p => { state.people[p].fearful = false; });
+      ids(eff.setback).forEach(p => { const s = state.people[p]; s.stage = Math.max(1, s.stage - 1); s.prog = 0; });
+      (eff.lock || []).forEach(([lv, w]) => { state.lastUsed[lv] = Math.max(state.lastUsed[lv] || 0, state.week + w); });
+      if (eff.gain) {
+        const g = {};
+        eff.gain.forEach(([who, amt]) => resolveWho(state, who).forEach(p => { g[p] = (g[p] || 0) + amt; }));
+        decision.directImpacted += Object.keys(g).length;
+        advance(state, g, decision.moved);
+      }
+      if (eff.later) state.scheduled.push({ week: state.week + eff.later.after, cred: eff.later.cred || 0, gain: eff.later.gain || null, note: eff.later.note });
+    };
+    apply(opt.effects);
+    const low = opt.effects.lowAuthority;
+    if (low && sc.authority < low.below) { apply(low); decision.notes.push(low.note); }
+    decision.weekEnd = state.week;
+    state.choices.push([id, idx, opt.tone]);
+    finalize(state, decision);
+    return { state, decision };
+  }
+
+  /* Idle: used if a player wants to end early. */
+  function endGame(prev) {
+    const state = clone(prev);
+    state.ended = true;
+    state.endReason = state.endReason || 'ended';
+    return state;
+  }
+
+  /* ---------- scoring ---------- */
+  function score(state) {
+    const sc = SCENARIO[state.scenarioId];
+    const a = adopters(state);
+    const reached = a >= CRITICAL_MASS;
+    const adoption = Math.round((a / PEOPLE.length) * 55);
+    const progress = Math.round((Object.values(state.people).reduce((s, p) => s + p.stage, 0) / (PEOPLE.length * 4)) * 10);
+    const cred = Math.round((state.cred / MAX_CRED) * 15);
+    const speed = reached ? Math.round(((state.maxWeeks - state.week) / state.maxWeeks) * 20) : 0;
+    const total = Math.min(100, adoption + progress + cred + speed);
+    const grade = total >= 85 ? 'A' : total >= 72 ? 'B' : total >= 58 ? 'C' : total >= 45 ? 'D' : 'E';
+    return { total, grade, adoption, progress, cred, speed, adopters: a, reached, weeksUsed: state.week, maxWeeks: sc.weeks };
+  }
+
+  /* ---------- debrief insights ---------- */
+  function insights(state) {
+    const sc = SCENARIO[state.scenarioId];
+    const H = state.history.filter(h => h.lever !== 'wait' && h.lever !== 'dilemma');
+    const out = [];
+    const used = id => H.some(h => h.lever === id);
+    const firstIdx = id => H.findIndex(h => h.lever === id);
+    const mistimed = H.filter(h => h.outcome === 'mistimed' || h.outcome === 'blocked');
+    const credLost = H.reduce((s, h) => s + Math.min(0, h.credDelta), 0);
+
+    const interviews = H.filter(h => h.lever === 'listen').length;
+    if (interviews === 0) out.push({ tone: 'warn', title: 'You never listened first', text: 'Listening sessions are cheap and reveal who resists and who is connected to whom. Without them you were steering blind.' });
+    else if (firstIdx('listen') <= 1) out.push({ tone: 'good', title: 'You diagnosed before acting', text: 'Starting with listening sessions gave you the map of resisters and friendships that every later move depended on.' });
+
+    const commIdx = Math.min(...['memo', 'townhall'].map(firstIdx).filter(i => i >= 0), Infinity);
+    if (commIdx === Infinity) out.push({ tone: 'warn', title: 'The change was never formally communicated', text: 'Without a memo or town hall, many people never moved past awareness.' });
+
+    if (mistimed.length) {
+      const worst = mistimed.reduce((a, b) => (a.credDelta <= b.credDelta ? a : b));
+      out.push({ tone: 'warn', title: `${mistimed.length} lever pull${mistimed.length > 1 ? 's were' : ' was'} mistimed`, text: `The costliest was "${LEVER[worst.lever].name}" in week ${worst.weekStart} (${worst.credDelta} credibility). ${worst.notes[0] || ''}` });
+    } else out.push({ tone: 'good', title: 'Every lever was well timed', text: 'You matched each lever to the stage people were actually in.' });
+
+    const heavy = H.filter(h => LEVER[h.lever].kind === 'substantive');
+    if (sc.urgency === 'high' && sc.authority >= 3) {
+      const early = heavy.some(h => h.weekStart <= 20);
+      out.push(early
+        ? { tone: 'good', title: 'You used your authority early', text: 'With real authority and high urgency, substantive levers pulled early, alongside enabling ones, buy speed.' }
+        : { tone: 'warn', title: 'You held back your authority', text: 'With real authority and high urgency, substantive levers such as goals and deadlines work best early, in parallel with enabling levers.' });
+    }
+    if (sc.authority < 4) {
+      const blocked = H.filter(h => h.outcome === 'blocked').length;
+      if (blocked) out.push({ tone: 'warn', title: 'You reached above your authority', text: `${blocked} lever pull${blocked > 1 ? 's were' : ' was'} blocked. As a ${LEVELS[sc.authority]}, the heavier levers need senior sponsors at the trial stage or beyond before you pull them.` });
+      else if (H.some(h => LEVER[h.lever].command)) out.push({ tone: 'good', title: 'You borrowed authority wisely', text: 'You built senior sponsors before reaching for levers above your level.' });
+    }
+    if (sc.reportsTo) {
+      const b = state.people[sc.reportsTo];
+      out.push(b.stage >= 3 && !b.resisting
+        ? { tone: 'good', title: 'You kept your sponsor with you', text: `${PERSON[sc.reportsTo].name} ended at ${STAGES[b.stage].toLowerCase()}. Bringing your boss along made every lever stronger.` }
+        : { tone: 'warn', title: 'Your boss never fully backed you', text: `${PERSON[sc.reportsTo].name} ended at ${STAGES[b.stage].toLowerCase()}${b.resisting ? ' and was resisting' : ''}. At your level, your boss's sponsorship amplifies everything you do.` });
+    }
+    const ch = state.choices || [];
+    if (ch.length) {
+      const good = ch.filter(c => c[2] === 'good').length, poor = ch.filter(c => c[2] === 'poor');
+      out.push(poor.length
+        ? { tone: 'warn', title: `Critical decisions: ${good} of ${ch.length} well judged`, text: `Your hardest call was "${DILEMMAS[poor[0][0]].title}". ${DILEMMAS[poor[0][0]].options[poor[0][1]].lesson}` }
+        : { tone: 'good', title: `Critical decisions: ${good} of ${ch.length} well judged`, text: 'Under pressure, you chose options that protected both the change and the people.' });
+    }
+    if (sc.urgency === 'low' && heavy.some(h => h.phaseAtStart === 0 && LEVER[h.lever].command && !LEVER[h.lever].pledge)) {
+      out.push({ tone: 'warn', title: 'Pressure without a reason', text: 'With no crisis, mandates during mobilisation felt arbitrary. In low-urgency settings, let enabling levers do the early work.' });
+    }
+
+    const fearPeople = PEOPLE.filter(p => p.fear);
+    if (used('pledge')) out.push({ tone: 'good', title: 'You lowered the cost of change', text: 'The reskilling guarantee addressed fear of loss directly instead of just raising the pressure.' });
+    else if (fearPeople.some(p => state.people[p.id].stage < 4)) out.push({ tone: 'warn', title: 'Fear of loss was never addressed', text: `${fearPeople.filter(p => state.people[p.id].stage < 4).map(p => p.name.split(' ')[0]).join(', ')} stayed stuck. Training and pilots work poorly on people who fear for their jobs.` });
+
+    const resisters = PEOPLE.filter(p => p.resister);
+    const stillResisting = resisters.filter(p => state.people[p.id].resisting);
+    if (stillResisting.length) out.push({ tone: 'warn', title: 'Some resisters were never engaged', text: `${stillResisting.map(p => p.name).join(', ')} kept resisting to the end. A candid one-to-one, once they are aware, can turn a resister and their friends.` });
+    else out.push({ tone: 'good', title: 'You turned every resister', text: 'Each active resister was engaged directly, and their friends followed.' });
+
+    if (used('pilot') || used('champions')) {
+      if ((firstIdx('pilot') >= 0 && firstIdx('pilot') < H.length / 2) || (firstIdx('champions') >= 0 && firstIdx('champions') < H.length / 2))
+        out.push({ tone: 'good', title: 'You crossed the chasm', text: 'Pilots and champions moved people from interest into trial — the pivotal, behaviour-changing stage.' });
+    } else out.push({ tone: 'warn', title: 'No pilots or champions', text: 'Without learning-by-doing, interest rarely turns into trial.' });
+
+    if (credLost <= -3) out.push({ tone: 'warn', title: 'Credibility was your scarcest resource', text: `You spent ${-credLost} points of credibility on moves that did not land. Each point lost made every later lever weaker.` });
+    return out;
+  }
+
+  /* ---------- results code for class mode ---------- */
+  function resultRecord(state) {
+    const s = score(state);
+    return {
+      v: 1,
+      team: state.team || 'Player',
+      session: state.session || '',
+      scenario: state.scenarioId,
+      score: s.total,
+      grade: s.grade,
+      adopters: s.adopters,
+      reached: s.reached,
+      cred: state.cred,
+      weeks: state.week,
+      maxWeeks: state.maxWeeks,
+      end: state.endReason,
+      dilemmas: state.choices,
+      levers: state.history.filter(h => h.lever !== 'wait' && h.lever !== 'dilemma').map(h => [h.lever, h.weekStart, h.outcome[0], h.credDelta]),
+      curve: state.timeline.map(t => [t.week, t.counts[4], t.counts[3]]),
+      at: new Date().toISOString()
+    };
+  }
+  function encodeResult(rec) {
+    const json = JSON.stringify(rec);
+    const b64 = typeof btoa !== 'undefined' ? btoa(unescape(encodeURIComponent(json))) : Buffer.from(json, 'utf8').toString('base64');
+    return 'TP1.' + b64;
+  }
+  function decodeResult(code) {
+    const c = String(code).trim();
+    if (c.startsWith('{')) return JSON.parse(c);
+    if (!c.startsWith('TP1.')) throw new Error('Not a Tipping Point result code');
+    const b64 = c.slice(4);
+    const json = typeof atob !== 'undefined' ? decodeURIComponent(escape(atob(b64))) : Buffer.from(b64, 'base64').toString('utf8');
+    return JSON.parse(json);
+  }
+
+  const ENGINE = {
+    newGame, applyLever, wait, resolveDilemma, fillText, sponsorsNeeded, availability, endGame, score, insights, resultRecord, encodeResult, decodeResult,
+    adopters, atLeast, seniorSponsors, friendsOf, coworkersOf, LEVER, PERSON, SCENARIO, hashSeed
+  };
+  if (typeof module !== 'undefined' && module.exports) module.exports = ENGINE;
+  else root.TP_ENGINE = ENGINE;
+})(typeof window !== 'undefined' ? window : globalThis);
+
+</script>
+<script>
+/* Tipping Point — user interface. */
+(function () {
+  'use strict';
+  const D = window.TP_DATA, E = window.TP_ENGINE;
+  const { STAGES, PEOPLE, LEVERS, SCENARIOS, PHASES, COMPANY, CONCEPTS, CRITICAL_MASS, MAX_CRED, LEVELS, DILEMMAS } = D;
+  const asLevel = sc => (sc.authority === 4 ? 'C-suite executive' : sc.level);
+  const quadIndex = sc => (sc.urgency === 'high' ? 2 : 0) + (sc.power === 'high' ? 1 : 0);
+  const authMeter = n => `<span class="auth" title="Authority ${n} of 4">${[1, 2, 3, 4].map(i => `<i class="${i <= n ? 'on' : ''}"></i>`).join('')}</span>`;
+  const P = E.PERSON, L = E.LEVER, S = E.SCENARIO;
+
+  const ST_COLOR = ['var(--st0)', 'var(--st1)', 'var(--st2)', 'var(--st3)', 'var(--st4)'];
+  const LV_COLOR = { staff: 'var(--lv-staff)', exec: 'var(--lv-exec)', mid: 'var(--lv-mid)', front: 'var(--lv-front)' };
+  const LV_NAME = { staff: 'CEO staff', exec: 'Top executives', mid: 'Middle managers', front: 'Frontline' };
+  const EXECS = ['imran', 'devika', 'arjun', 'sunita', 'kofi'];
+  const ORG_ORDER = ['lena', 'harish', 'imran', 'neha', 'victor', 'devika', 'priya', 'gopal', 'rajesh', 'manpreet', 'ravi', 'arjun', 'meilin', 'sameer', 'sunita', 'fatima', 'kofi', 'daniel', 'ananya', 'joanna'];
+
+  /* ---------- storage (never required) ---------- */
+  const store = {
+    get(k) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : null; } catch (e) { return null; } },
+    set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { /* ignore */ } },
+    del(k) { try { localStorage.removeItem(k); } catch (e) { /* ignore */ } }
+  };
+
+  /* ---------- app state ---------- */
+  const app = {
+    view: 'home', game: null, selLever: null, selTargets: [], drawer: null, news: null, menu: false,
+    home: { mode: 'single', scenario: 's4', team: '', session: '' },
+    fac: { records: store.get('tp_fac') || [], sort: 'score', session: 'all' },
+    flash: [], netFocus: null, toast: null, confirm: null
+  };
+  const saved = store.get('tp_game');
+  const theme = store.get('tp_theme');
+  if (theme) document.documentElement.setAttribute('data-theme', theme);
+  if (location.hash === '#facilitator') app.view = 'facilitator';
+
+  /* ---------- helpers ---------- */
+  const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const initials = name => name.replace(/[^A-Za-z ]/g, '').split(' ').filter(Boolean).map(w => w[0]).slice(0, 2).join('').toUpperCase();
+  const first = id => P[id].name.split(' ')[0];
+  const plural = (n, w, pl) => `${n} ${n === 1 ? w : (pl || w + 's')}`;
+  const listNames = ids => ids.map(first).join(', ');
+
+  const I = {
+    warn: '<path d="M12 3 2 21h20L12 3Z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/><path d="M12 10v5M12 18v.5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>',
+    chat: '<path d="M4 5h16v11H9l-5 4V5Z" fill="currentColor"/>',
+    fear: '<path d="M12 21s-8-5-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 6-8 11-8 11Z" fill="currentColor"/>',
+    check: '<path d="m5 12 5 5 9-10" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>',
+    x: '<path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>',
+    menu: '<path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>',
+    info: '<circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 11v6M12 7.5v.5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>',
+    up: '<path d="M12 19V5M6 11l6-6 6 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>',
+    down: '<path d="M12 5v14M6 13l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>',
+    clock: '<circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 7v5l3 2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>',
+    copy: '<rect x="8" y="8" width="12" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3" fill="none" stroke="currentColor" stroke-width="2"/>',
+    download: '<path d="M12 4v11M7 10l5 5 5-5M5 20h14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>',
+    print: '<path d="M7 9V4h10v5M7 17H5a1 1 0 0 1-1-1v-6a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1h-2M7 14h10v6H7z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>',
+    play: '<path d="M8 5v14l11-7L8 5Z" fill="currentColor"/>',
+    refresh: '<path d="M20 11a8 8 0 1 0-2.3 5.7M20 5v6h-6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>',
+    users: '<circle cx="9" cy="8" r="3.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 4.6a3.5 3.5 0 0 1 0 6.8M18 14.5a6.5 6.5 0 0 1 3.5 5.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>',
+    moon: '<path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>',
+    home: '<path d="M4 11 12 4l8 7v9H4v-9Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>',
+    upload: '<path d="M12 20V9M7 14l5-5 5 5M5 4h14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>',
+    trash: '<path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>'
+  };
+  const icon = (n, cls = 'icon') => `<svg class="${cls}" viewBox="0 0 24 24" aria-hidden="true">${I[n]}</svg>`;
+
+  const BRAND = `<svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="2" y="2" width="28" height="28" rx="8" fill="var(--brand)"/><path d="M8 22c3-.4 5-2.6 6.4-6.2C15.8 12 17.6 9.6 24 9.4" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/><circle cx="24" cy="9.4" r="2.6" fill="#fff"/><circle cx="8" cy="22" r="1.8" fill="#fff" opacity=".7"/></svg>`;
+
+  function save() { if (app.game) store.set('tp_game', app.game); }
+  function toast(msg) {
+    app.toast = msg; render();
+    clearTimeout(toast.t); toast.t = setTimeout(() => { app.toast = null; render(); }, 2200);
+  }
+  function download(name, text, type = 'application/json') {
+    const blob = new Blob([text], { type });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob); a.download = name;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  }
+  async function copy(text) {
+    try { await navigator.clipboard.writeText(text); toast('Copied to clipboard'); }
+    catch (e) {
+      const ta = document.createElement('textarea'); ta.value = text; document.body.appendChild(ta); ta.select();
+      try { document.execCommand('copy'); toast('Copied to clipboard'); } catch (e2) { toast('Select the code and copy it manually'); }
+      ta.remove();
+    }
+  }
+
+  /* ---------- person card ---------- */
+  function personCard(id, o = {}) {
+    const p = P[id];
+    const s = app.game ? app.game.people[id] : { stage: 0, interviewed: false, resisting: false, fearful: false };
+    const flags = [];
+    if (s.interviewed) flags.push(`<span class="flag int" title="Interviewed">${icon('chat')}</span>`);
+    if (s.interviewed && s.resisting) flags.push(`<span class="flag res" title="Active resister">${icon('warn')}</span>`);
+    if (s.interviewed && s.fearful) flags.push(`<span class="flag fear" title="Held back by fear of loss">${icon('fear')}</span>`);
+    const meter = [1, 2, 3, 4].map(i => `<i class="${s.stage >= i ? 'on' : ''}" style="${s.stage >= i ? 'background:' + ST_COLOR[s.stage] : ''}"></i>`).join('');
+    const cls = ['pc', o.selected ? 'sel' : '', o.dim ? 'dim' : '', app.flash.includes(id) ? 'flash' : '', o.wide ? 'wide' : ''].join(' ');
+    const act = o.selectable ? `data-act="toggle-target" data-id="${id}"` : `data-act="open-person" data-id="${id}"`;
+    return `<button class="${cls}" style="--lvc:${LV_COLOR[p.level]}" ${act} aria-pressed="${!!o.selected}">
+      ${o.selectable ? `<span class="check">${o.selected ? icon('check', 'icon') : ''}</span>` : ''}
+      <span class="pc-flags">${flags.join('')}</span>
+      <span class="av">${initials(p.name)}</span>
+      <span class="pc-body">
+        <span class="pc-name" style="display:block">${esc(p.name)}</span>
+        <span class="pc-title" style="display:block">${esc(p.title)}</span>
+        <span class="meter">${meter}</span>
+        <span class="pc-stage" style="display:block;color:${s.stage ? ST_COLOR[s.stage] : 'var(--ink-3)'}">${STAGES[s.stage]}</span>
+      </span>
+    </button>`;
+  }
+  function youCard() {
+    const sc = app.game ? S[app.game.scenarioId] : S[app.home.scenario];
+    return `<div class="pc you" style="cursor:default"><span class="av" style="background:var(--brand)">You</span><span class="pc-body">
+      <span class="pc-name" style="display:block">You · ${esc(sc.level)}</span><span class="pc-title" style="display:block">${esc(sc.role)}${sc.reportsTo ? ' · reports to ' + esc(P[sc.reportsTo].name.split(' ')[0]) : ''}</span>
+      <span class="meter">${[1, 2, 3, 4].map(() => `<i class="on" style="background:var(--st4)"></i>`).join('')}</span>
+      <span class="pc-stage" style="display:block;color:var(--st4)">Adoption</span></span></div>`;
+  }
+
+  function orgChart(o = {}) {
+    const sel = id => app.selTargets.includes(id);
+    const card = id => personCard(id, { selectable: o.selectable, selected: o.selectable && sel(id), dim: o.dimFn && o.dimFn(id) });
+    const kids = id => PEOPLE.filter(p => p.manager === id).map(p => p.id);
+    const tree = id => {
+      const k = kids(id);
+      return `${card(id)}${k.length ? `<div class="org-children">${k.map(tree).join('')}</div>` : ''}`;
+    };
+    return `<div class="org"><div class="org-inner">
+      <div class="org-top">${youCard()}</div>
+      <div class="org-row"><div style="width:230px">${card('lena')}</div><div style="width:230px">${card('harish')}</div></div>
+      <div class="org-cols">${EXECS.map(id => `<div class="org-col"><div class="org-dept">${esc(P[id].dept)}</div>${tree(id)}</div>`).join('')}</div>
+    </div></div>`;
+  }
+  const legend = () => `<div class="legend">
+      ${Object.entries(LV_NAME).map(([k, v]) => `<span><i style="background:${LV_COLOR[k]}"></i>${v}</span>`).join('')}
+      <span style="margin-left:8px"><span class="flag int" style="width:18px;height:18px">${icon('chat')}</span>Interviewed</span>
+      <span><span class="flag res" style="width:18px;height:18px">${icon('warn')}</span>Resister</span>
+      <span><span class="flag fear" style="width:18px;height:18px">${icon('fear')}</span>Fear of loss</span>
+    </div>`;
+
+  /* ---------- status bar ---------- */
+  function statusBar() {
+    const g = app.game;
+    const counts = [0, 0, 0, 0, 0]; Object.values(g.people).forEach(p => counts[p.stage]++);
+    const ad = counts[4];
+    const dots = ORG_ORDER.map((_, i) => `<i class="${i < ad ? 'on' : i < ad + counts[3] ? 'trial' : ''}"></i>`).join('');
+    const cmLeft = ((CRITICAL_MASS - 0.5) / PEOPLE.length) * 100;
+    const phases = PHASES.map((ph, i) => `<div class="ph ${g.phase > i ? 'done' : g.phase === i ? 'now' : ''}"><i></i>${ph}</div>${i < 2 ? `<div class="ln ${g.phase > i ? 'done' : ''}"></div>` : ''}`).join('');
+    return `<footer class="statusbar" aria-label="Simulation status">
+      <div class="stat"><div class="stat-label">Weeks used <b>${g.week} / ${g.maxWeeks}</b></div><div class="bar"><span style="width:${(g.week / g.maxWeeks) * 100}%"></span></div></div>
+      <div class="stat"><div class="stat-label">Critical mass <b>${ad} / ${PEOPLE.length} adopted</b></div><div class="dots">${dots}<span class="cm-mark" style="left:${cmLeft}%">TARGET ${CRITICAL_MASS}</span></div></div>
+      <div class="stat"><div class="stat-label">Phase <b>${PHASES[g.phase]}</b></div><div class="phases">${phases}</div></div>
+      <div class="stat"><div class="stat-label">Credibility <b>${g.cred} / ${MAX_CRED}</b></div><div class="bar cred ${g.cred <= 3 ? 'low' : ''}"><span style="width:${(g.cred / MAX_CRED) * 100}%"></span></div></div>
+    </footer>`;
+  }
+
+  /* ---------- top bar ---------- */
+  function topBar() {
+    const g = app.game;
+    const tabs = g && app.view !== 'facilitator' && app.view !== 'home'
+      ? [['brief', 'Brief'], ['dashboard', 'Organisation'], ['network', 'Network'], ['decide', 'Decide'], ['history', 'History'], ['playbook', 'Playbook']].concat(g.ended ? [['debrief', 'Debrief']] : [])
+      : [];
+    const sc = g ? S[g.scenarioId] : null;
+    return `<header class="topbar">
+      <button class="brand" data-act="go-home" title="Home">${BRAND}<span>Tipping Point<small>${sc && app.view !== 'home' && app.view !== 'facilitator' ? `Scenario ${sc.number} · ${esc(sc.title)}` : 'Leading AI adoption'}</small></span></button>
+      <nav class="nav" aria-label="Sections">${tabs.map(([v, t]) => `<button class="${app.view === v ? 'active' : ''}" data-act="view" data-view="${v}">${t}${v === 'debrief' ? '<span class="badge-dot"></span>' : ''}</button>`).join('')}</nav>
+      <div class="menu-wrap" style="${tabs.length ? '' : 'margin-left:auto'}">
+        <button class="btn btn-ghost btn-sm" data-act="menu" aria-label="Menu">${icon('menu')}</button>
+        ${app.menu ? `<div class="menu" role="menu">
+          <button data-act="go-home">${icon('home')}Home</button>
+          ${g && !g.ended ? `<button data-act="restart">${icon('refresh')}Restart this scenario</button>` : ''}
+          ${g ? `<button data-act="export-game">${icon('download')}Download my game file</button>` : ''}
+          <button data-act="view" data-view="facilitator">${icon('users')}Facilitator dashboard</button>
+          <button data-act="theme">${icon('moon')}Switch light / dark</button>
+        </div>` : ''}
+      </div>
+    </header>`;
+  }
+
+  /* ---------- views ---------- */
+  function heroArt() {
+    const segs = [[0, 2.5, 'var(--st1)'], [2.5, 16, 'var(--st2)'], [16.6, 50, 'var(--st3)'], [50, 84, 'var(--brand)'], [84, 100, 'var(--st4)']];
+    const W = 420, H = 300, base = 250;
+    const y = x => base - 200 * Math.exp(-Math.pow((x - 50) / 22, 2));
+    const area = (a, b) => { let d = `M${a * 4.2},${base}`; for (let x = a; x <= b; x += 1) d += ` L${x * 4.2},${y(x)}`; return d + ` L${b * 4.2},${base} Z`; };
+    return `<svg class="hero-art" viewBox="0 0 ${W} ${H}" role="img" aria-label="Diffusion of innovation curve">
+      ${segs.map(([a, b, c]) => `<path d="${area(a, b)}" fill="${c}" opacity=".88"/>`).join('')}
+      <line x1="${16.3 * 4.2}" y1="40" x2="${16.3 * 4.2}" y2="${base}" stroke="var(--ink)" stroke-dasharray="3 4" stroke-width="1.5"/>
+      <text x="${16.3 * 4.2 + 6}" y="52" font-size="12" font-weight="700" fill="var(--ink-2)" font-family="Inter, sans-serif">THE CHASM</text>
+      <line x1="0" y1="${base}" x2="${W}" y2="${base}" stroke="var(--line-2)" stroke-width="2"/>
+      ${['Innovators', 'Early adopters', 'Early majority', 'Late majority', 'Laggards'].map((t, i) => `<text x="${[0, 44, 150, 262, 360][i]}" ${i === 1 ? 'dy="14"' : ''} y="${base + 22}" font-size="11" fill="var(--ink-3)" font-family="Inter, sans-serif" font-weight="600">${t}</text>`).join('')}
+      <circle cx="${68 * 4.2}" cy="${y(68) - 14}" r="7" fill="var(--surface)" stroke="var(--brand)" stroke-width="3"/>
+    </svg>`;
+  }
+
+  function viewHome() {
+    const h = app.home;
+    const quad = [['s1', 's2'], ['s3', 's4']];
+    const resume = app.game && !app.game.ended ? app.game : null;
+    return `<section class="hero">
+        <div>
+          <div class="kicker">A change-leadership simulation</div>
+          <h1>Tipping Point</h1>
+          <p class="lead">Lead ${esc(COMPANY.name)} through company-wide AI adoption. Diagnose 20 key people across four levels, pull the right levers in the right order, and reach a critical mass of genuine adopters before time — or your credibility — runs out.</p>
+          <div class="chips" style="margin-top:14px"><span class="pill">4 roles: Manager to C-suite</span><span class="pill">20 people · 4 levels</span><span class="pill">18 change levers</span><span class="pill">Critical decisions</span><span class="pill">Single player or class</span></div>
+        </div>
+        ${heroArt()}
+      </section>
+      <div class="home-body">
+        ${resume ? `<div class="card resume" style="margin-bottom:20px"><div><b>Continue your game</b><div class="small muted">Scenario ${S[resume.scenarioId].number} · ${esc(S[resume.scenarioId].title)} · week ${resume.week} of ${resume.maxWeeks}${resume.team ? ' · ' + esc(resume.team) : ''}</div></div>
+          <button class="btn btn-accent" data-act="resume">${icon('play')}Resume</button></div>` : ''}
+        <div class="card">
+          <div class="mode-tabs" role="tablist">
+            <button class="${h.mode === 'single' ? 'active' : ''}" data-act="mode" data-mode="single">Single player</button>
+            <button class="${h.mode === 'class' ? 'active' : ''}" data-act="mode" data-mode="class">Class session</button>
+          </div>
+          ${h.mode === 'class' ? `<div class="form-row">
+              <div class="field"><label for="f-team">Team or player name</label><input id="f-team" data-input="team" value="${esc(h.team)}" placeholder="e.g. Team Falcon" maxlength="40"></div>
+              <div class="field"><label for="f-session">Session code</label><input id="f-session" data-input="session" value="${esc(h.session)}" placeholder="From your facilitator, e.g. IIMI-7Q2" maxlength="24" style="text-transform:uppercase"></div>
+            </div>
+            <p class="small muted" style="margin-top:-6px">Every team using the same session code plays under identical conditions, so results are directly comparable. At the end you will get a result code to hand to your facilitator.</p>` :
+            `<p class="muted" style="margin-bottom:18px">Play at your own pace. Your progress is saved in this browser as you go.</p>`}
+          <h3 style="margin-top:6px">Choose your role</h3>
+          <p class="small muted">The same company, the same 20 people and the same AI programme, led from four different seats. The more senior you are, the more levers you can pull alone, and the more each decision is watched.</p>
+          <div class="roles" style="margin-top:14px">
+            ${SCENARIOS.map(sc => `<button class="scn ${h.scenario === sc.id ? 'selected' : ''}" data-act="pick-scenario" data-id="${sc.id}">
+              <span class="num" style="display:flex;justify-content:space-between;align-items:center;gap:8px">Scenario ${sc.number} · ${esc(sc.level)} ${authMeter(sc.authority)}</span>
+              <h3>${esc(sc.title)}</h3><span class="small" style="font-weight:600">${esc(sc.role)}</span><p>${esc(sc.strategy)}</p>
+              <span class="meta"><span class="pill ${sc.urgency === 'high' ? 'brand' : 'accent'}">${sc.urgency === 'high' ? 'High urgency' : 'Low urgency'}</span><span class="pill">${sc.weeks} weeks</span><span class="pill">Credibility ${sc.startCred}/10</span></span></button>`).join('')}
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:20px;flex-wrap:wrap">
+            <button class="btn btn-ghost" data-act="view" data-view="facilitator">${icon('users')}Facilitator dashboard</button>
+            <button class="btn btn-primary btn-lg" data-act="start">${icon('play')}Start Scenario ${S[h.scenario].number}</button>
+          </div>
+        </div>
+        <div class="grid-3" style="margin-top:20px">
+          <div class="card"><h4>1 · Diagnose</h4><p class="small" style="margin:0">Listen before you act. Interviews reveal who resists, who is afraid, and who is friends with whom.</p></div>
+          <div class="card"><h4>2 · Decide</h4><p class="small" style="margin:0">Each lever costs weeks, works only on certain stages, and needs time before it can be reused. Mistimed levers burn credibility.</p></div>
+          <div class="card"><h4>3 · Debrief</h4><p class="small" style="margin:0">See your adoption curve, what worked, what backfired, and reflection questions for discussion.</p></div>
+        </div>
+      </div>`;
+  }
+
+  function viewBrief() {
+    const g = app.game, sc = S[g.scenarioId];
+    const voices = sc.voices;
+    const quadIdx = quadIndex(sc);
+    return `<div class="section-head"><div><div class="kicker">Scenario ${sc.number} · ${esc(sc.quadrant)}</div><h1 style="margin:0">${esc(sc.title)}</h1></div>
+        <button class="btn btn-primary" data-act="view" data-view="decide">Go to decisions ${icon('play')}</button></div>
+      <div class="brief">
+        <div class="card prose">
+          ${sc.intro.map(p => `<p>${esc(p)}</p>`).join('')}
+          <div class="divider"></div>
+          <h3>Where people stand today</h3><p>${esc(sc.startNote || '')}</p>
+          ${(() => { const c = g.timeline[0].counts; return `<div class="stage-strip" style="margin-bottom:14px">${STAGES.map((st, i) => `<div class="stage-box" style="--c:${ST_COLOR[i]}"><b>${c[i]}</b><span>${st}</span></div>`).join('')}</div>`; })()}
+          <h3>The company</h3><p>${esc(COMPANY.blurb)}</p>
+          <h3>The AI programme</h3><ul class="clean">${COMPANY.program.map(x => `<li>${esc(x)}</li>`).join('')}</ul>
+          <div class="divider"></div>
+          <h3>First reactions</h3>
+          ${voices.map(([id, q]) => `<div class="quote"><b>${esc(P[id].name)} · ${esc(P[id].title)}</b><span>“${esc(q)}”</span></div>`).join('')}
+        </div>
+        <div>
+          <div class="card">
+            <h4>Your position</h4>
+            <div class="facts" style="grid-template-columns:1fr 1fr">
+              <div class="fact"><span>Role</span><b style="font-size:13.5px">${esc(sc.role)}</b></div>
+              <div class="fact"><span>Authority</span><b style="display:flex;gap:8px;align-items:center">${esc(sc.level)} ${authMeter(sc.authority)}</b></div>
+              <div class="fact"><span>Reports to</span><b style="font-size:13.5px">${sc.reportsTo ? esc(P[sc.reportsTo].name) + ', ' + esc(P[sc.reportsTo].title) : sc.authority === 4 ? 'The board' : 'The CEO'}</b></div>
+              <div class="fact"><span>Urgency</span><b>${sc.urgency === 'high' ? 'High' : 'Low'}</b></div>
+              <div class="fact"><span>Time budget</span><b>${sc.weeks} weeks</b></div>
+              <div class="fact"><span>Credibility</span><b>${sc.startCred} / 10</b></div>
+              <div class="fact"><span>Win condition</span><b>${CRITICAL_MASS} of 20 adopt</b></div>
+            </div>
+            <div class="concept-matrix" style="margin-top:8px">
+              ${CONCEPTS.matrix.map((m, i) => `<div class="cell ${i === quadIdx ? 'me' : ''}"><b class="small">${esc(m.name)}</b><div class="tiny muted">${m.power === 'high' ? 'High' : 'Low'} power · ${m.urgency === 'high' ? 'high' : 'low'} urgency</div></div>`).join('')}
+            </div>
+          </div>
+          <div class="card">
+            <h4>How it works</h4>
+            <ul class="clean small">
+              <li>Each person climbs a ladder: <b>Unaware → Aware → Interest → Trial → Adoption</b>.</li>
+              <li>Every lever works only on certain stages. Pull it on the wrong people and it fails — and costs credibility.</li>
+              <li>Some levers spread to a person's <b>friends</b> or <b>coworkers</b>. Friendships are hidden until you hold listening sessions.</li>
+              <li>Credibility makes every lever stronger. If it hits zero, you have lost the room.</li>
+              <li>${sc.authority < 4 ? `Some levers need more authority than a ${esc(asLevel(sc))} holds (goals and incentives need VP level; the reskilling guarantee and reorganising need C-suite). To pull them you first need senior sponsors at the trial stage or beyond.` : 'You hold every lever, but authority spent badly drains credibility fast.'}</li>
+              ${sc.reportsTo ? `<li>Your boss, <b>${esc(P[sc.reportsTo].name)}</b>, matters: once they are trying the change, every lever works better. If they turn against you, every lever works worse.</li>` : ''}
+              <li>Along the way you will face <b>${sc.dilemmas.length} critical decisions</b>. There is no undo, and some consequences arrive later.</li>
+            </ul>
+          </div>
+        </div>
+      </div>`;
+  }
+
+  function stageStrip() {
+    const c = [0, 0, 0, 0, 0]; Object.values(app.game.people).forEach(p => c[p.stage]++);
+    return `<div class="stage-strip">${STAGES.map((s, i) => `<div class="stage-box" style="--c:${ST_COLOR[i]}"><b>${c[i]}</b><span>${s}</span></div>`).join('')}</div>`;
+  }
+
+  function viewDashboard() {
+    return `<div class="section-head"><div><h2>Organisation</h2><p>Click anyone to see what you know about them.</p></div>${legend()}</div>
+      ${stageStrip()}<div class="card">${orgChart()}</div>`;
+  }
+
+  /* ---------- network ---------- */
+  function viewNetwork() {
+    const g = app.game;
+    const order = ['you', ...ORG_ORDER];
+    const N = order.length, R = 245, C = 320;
+    const pos = {};
+    order.forEach((id, i) => { const a = -Math.PI / 2 + (i / N) * Math.PI * 2; pos[id] = [C + R * Math.cos(a), C + R * Math.sin(a), a]; });
+    const edges = new Map();
+    const key = (a, b) => [a, b].sort().join('|');
+    PEOPLE.forEach(p => { const m = p.manager || 'you'; edges.set(key(p.id, m), { a: p.id, b: m, formal: true, friend: false }); });
+    D.FRIENDSHIPS.forEach(([a, b]) => {
+      if (!(g.people[a].interviewed || g.people[b].interviewed)) return;
+      const k = key(a, b); const e = edges.get(k);
+      if (e) e.friend = true; else edges.set(k, { a, b, formal: false, friend: true });
+    });
+    const f = app.netFocus;
+    const near = new Set(f ? [f] : []);
+    const edgeSvg = [...edges.values()].map(e => {
+      const [x1, y1] = pos[e.a], [x2, y2] = pos[e.b];
+      const cx = C + ((x1 + x2) / 2 - C) * 0.25, cy = C + ((y1 + y2) / 2 - C) * 0.25;
+      const type = e.formal && e.friend ? 'both' : e.formal ? 'formal' : 'friend';
+      const hl = f && (e.a === f || e.b === f);
+      if (hl) { near.add(e.a); near.add(e.b); }
+      return `<path class="edge ${type} ${hl ? 'hl' : ''}" d="M${x1},${y1} Q${cx},${cy} ${x2},${y2}"/>`;
+    }).join('');
+    const nodes = order.map(id => {
+      const [x, y, a] = pos[id];
+      const st = id === 'you' ? 4 : g.people[id].stage;
+      const label = id === 'you' ? 'You' : first(id);
+      const lx = C + (R + 30) * Math.cos(a), ly = C + (R + 30) * Math.sin(a);
+      const anchor = Math.abs(Math.cos(a)) < 0.2 ? 'middle' : Math.cos(a) > 0 ? 'start' : 'end';
+      const ring = id !== 'you' && g.people[id].interviewed ? `<circle r="21" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="3 3"/>` : '';
+      const lvc = id === 'you' ? 'var(--brand)' : LV_COLOR[P[id].level];
+      return `<g class="node ${f && !near.has(id) ? 'fade' : ''}" transform="translate(${x},${y})" data-act="net-focus" data-id="${id}" tabindex="0">
+        ${ring}<circle r="16" fill="${lvc}"/><circle r="16" fill="none" stroke="${ST_COLOR[st]}" stroke-width="4" opacity="${st ? 1 : 0}"/>
+        <text text-anchor="middle" dy="4" style="fill:#fff;font-size:10.5px;font-weight:700">${id === 'you' ? 'YOU' : initials(P[id].name)}</text>
+        <text x="${lx - x}" y="${ly - y + 4}" text-anchor="${anchor}">${esc(label)}</text></g>`;
+    }).join('');
+    const revealed = PEOPLE.filter(p => g.people[p.id].interviewed).length;
+    const fp = f && f !== 'you' ? P[f] : null;
+    return `<div class="section-head"><div><h2>Relationship network</h2><p>Formal reporting lines are always visible. Friendships appear once you have held a listening session with either person.</p></div><span class="pill accent">${revealed} of 20 networks revealed</span></div>
+      <div class="net-wrap">
+        <div class="card net ${f ? 'focus' : ''}"><svg viewBox="-40 -10 720 660" role="img" aria-label="Relationship network">${edgeSvg}${nodes}</svg></div>
+        <div>
+          <div class="card"><h4>Legend</h4>
+            <div class="legend" style="flex-direction:column;align-items:flex-start;gap:8px">
+              <span><i style="background:var(--good)"></i>Works directly with</span>
+              <span><i style="background:var(--warn)"></i>Is friends with</span>
+              <span><i style="background:var(--accent)"></i>Works with and is friends with</span>
+              <span><i style="background:transparent;border:2px dashed var(--accent);border-radius:50%"></i>Interviewed</span>
+            </div>
+            <p class="tiny muted" style="margin-top:10px">The coloured outer ring shows each person's adoption stage.</p>
+          </div>
+          <div class="card">${fp ? personSummary(f) : `<p class="muted small" style="margin:0">Click a person to highlight their connections.</p>`}</div>
+        </div>
+      </div>`;
+  }
+
+  function personSummary(id) {
+    const g = app.game, p = P[id], s = g.people[id];
+    const friends = E.friendsOf(id);
+    return `<div class="drawer-head" style="margin-bottom:10px"><span class="av" style="background:${LV_COLOR[p.level]}">${initials(p.name)}</span><div><b>${esc(p.name)}</b><div class="small muted">${esc(p.title)}</div></div></div>
+      <div class="chips" style="margin-bottom:10px"><span class="pill" style="color:${ST_COLOR[s.stage]}">${STAGES[s.stage]}</span><span class="pill">${LV_NAME[p.level]}</span>${s.interviewed && s.resisting ? '<span class="pill warn">Resister</span>' : ''}${s.interviewed && s.fearful ? '<span class="pill bad">Fear of loss</span>' : ''}</div>
+      ${s.interviewed ? `<p class="small"><b>Friends:</b> ${friends.length ? listNames(friends) : 'none'}</p><p class="small" style="font-style:italic;color:var(--ink-2)">“${esc(p.concern)}”</p>`
+        : `<div class="locked-box">Hold a listening session with ${esc(first(id))} to learn how they feel and who their friends are.</div>`}
+      <button class="btn btn-sm" style="margin-top:10px" data-act="open-person" data-id="${id}">Full profile</button>`;
+  }
+
+  /* ---------- decide ---------- */
+  function viewDecide() {
+    const g = app.game;
+    if (g.ended) return `<div class="card empty"><h2>The simulation has ended</h2><p>See how you did in the debrief.</p><button class="btn btn-primary" data-act="view" data-view="debrief">Open debrief</button></div>`;
+    const rows = LEVERS.map(l => {
+      const av = E.availability(g, l.id);
+      return `<tr class="${app.selLever === l.id ? 'active' : ''} ${av.ok ? '' : 'locked'}" data-act="pick-lever" data-id="${l.id}">
+        <td class="num hide-sm">${g.attempts[l.id] || ''}</td>
+        <td><span class="kind ${l.kind}" title="${l.kind === 'enabling' ? 'Enabling (less disruptive)' : 'Substantive (more disruptive)'}"></span><span class="lname">${esc(l.name)}</span>${!av.ok && av.cooldown ? ` <span class="pill tiny" style="margin-left:4px">${icon('clock', 'icon')} ${av.cooldown}w</span>` : ''}</td>
+        <td class="num">${l.scope === 'org' ? 'All' : l.scope}</td>
+        <td class="num">${l.weeks}</td>
+        <td class="num hide-sm">${l.reuse}</td></tr>`;
+    }).join('');
+    return `<div class="section-head"><div><h2>Decide</h2><p>Choose a lever, choose who it targets, and commit. Week ${g.week} of ${g.maxWeeks}.</p></div>
+        <div class="legend"><span><i style="background:var(--accent)"></i>Enabling lever</span><span><i style="background:var(--brand)"></i>Substantive lever</span></div></div>
+      <div class="decide">
+        <div class="card" style="padding:8px 8px 4px">
+          <table class="lever-table"><thead><tr><th class="num hide-sm">Used</th><th>Lever</th><th class="num">Scope</th><th class="num">Weeks</th><th class="num hide-sm">Reuse</th></tr></thead><tbody>${rows}</tbody></table>
+        </div>
+        <div class="card lever-panel">${leverPanel()}</div>
+      </div>`;
+  }
+
+  function leverPanel() {
+    const g = app.game;
+    if (!app.selLever) {
+      return `<div class="empty">${icon('info')}<h3 style="margin-top:10px">Select a lever</h3><p class="small">Pick a lever on the left to see what it does, who it can move, and to choose your targets.</p>
+        <div class="divider"></div><p class="small">Stuck waiting for levers to become available?</p><button class="btn btn-sm" data-act="wait">${icon('clock')}Wait one week</button></div>`;
+    }
+    const l = L[app.selLever], sc = S[g.scenarioId];
+    const av = E.availability(g, l.id);
+    const spill = { friends: 'Their friends', coworkers: 'Their coworkers', both: 'Their friends and coworkers' }[l.spill];
+    const notices = [];
+    if (!av.ok) notices.push(`<div class="notice warn">${icon('clock')}<span>${esc(av.reason)}</span></div>`);
+    const needS = E.sponsorsNeeded(g, l.id);
+    if (av.ok && needS > 0) notices.push(`<div class="notice ${E.seniorSponsors(g) >= needS ? 'info' : 'bad'}">${icon(E.seniorSponsors(g) >= needS ? 'check' : 'warn')}<span>Needs <b>${LEVELS[l.authority]}</b> authority. As a ${esc(asLevel(sc))}, you need <b>${needS} senior sponsors</b> at trial or beyond. You have <b>${E.seniorSponsors(g)}</b>.</span></div>`);
+    if (g.pending) notices.unshift(`<div class="notice bad">${icon('warn')}<span>A critical decision needs your attention first. <button class="btn btn-sm" data-act="show-dilemma" style="margin-left:6px">Open it</button></span></div>`);
+    if (av.ok && l.needsPhase != null && g.phase < l.needsPhase) notices.push(`<div class="notice warn">${icon('warn')}<span>Most effective in the ${PHASES[l.needsPhase]} phase. You are in ${PHASES[g.phase]}.</span></div>`);
+    if (av.ok && l.needsCred != null && g.cred < l.needsCred) notices.push(`<div class="notice warn">${icon('warn')}<span>Needs credibility of at least ${l.needsCred}. You have ${g.cred}.</span></div>`);
+
+    let picker = '';
+    if (l.scope !== 'org') {
+      const n = app.selTargets.length;
+      picker = `<div class="picker-head"><b>Choose ${l.scope === 1 ? 'one person' : 'up to ' + l.scope + ' people'}</b>
+          <span class="pill ${n === l.scope ? 'good' : n ? 'brand' : ''}">${n} / ${l.scope} selected</span>
+          ${n ? `<button class="btn btn-ghost btn-sm" data-act="clear-targets">Clear</button>` : ''}</div>
+        <div class="picker">${ORG_ORDER.map(id => personCard(id, { selectable: true, selected: app.selTargets.includes(id), dim: !l.stages.includes(g.people[id].stage) && !l.spotlight && l.id !== 'listen' })).join('')}</div>
+        <p class="tiny muted" style="margin:8px 0 0">Faded cards are not at a stage this lever can move.</p>`;
+    } else {
+      picker = `<div class="notice info">${icon('users')}<span>This lever applies to the <b>whole organisation</b>. It moves everyone who is at a stage it can influence.</span></div>`;
+    }
+    const canSubmit = av.ok && (l.scope === 'org' || app.selTargets.length > 0);
+    return `<div style="display:flex;justify-content:space-between;gap:10px;align-items:flex-start"><h2 style="margin:0">${esc(l.name)}</h2>
+        <span class="pill ${l.kind === 'enabling' ? 'accent' : 'brand'}">${l.kind === 'enabling' ? 'Enabling' : 'Substantive'}</span></div>
+      <p class="desc" style="margin-top:10px">${esc(l.desc)}</p>
+      <div class="facts"><div class="fact"><span>Scope</span><b>${l.scope === 'org' ? 'Entire org' : plural(l.scope, 'person', 'people')}</b></div>
+        <div class="fact"><span>Takes</span><b>${plural(l.weeks, 'week')}</b></div><div class="fact"><span>Reuse after</span><b>${plural(l.reuse, 'week')}</b></div></div>
+      <h4>Can move people who are</h4>
+      <div class="stage-chips">${STAGES.slice(0, 4).map((s, i) => `<span class="stage-chip ${l.stages.includes(i) ? 'on' : ''}" style="${l.stages.includes(i) ? 'background:' + ST_COLOR[Math.max(i, 1)] : ''}">${s}</span>`).join('')}</div>
+      ${spill ? `<p class="small" style="margin:10px 0 0"><b>Also influences:</b> ${spill}</p>` : ''}
+      ${notices.join('')}
+      ${picker}
+      <div class="submit-row"><button class="btn btn-sm btn-ghost" data-act="wait">${icon('clock')}Wait one week</button>
+        <button class="btn btn-primary" data-act="submit" ${canSubmit ? '' : 'disabled'}>Pull lever · ${plural(l.weeks, 'week')}</button></div>`;
+  }
+
+  /* ---------- history ---------- */
+  function adoptionChart(timeline, maxWeeks, o = {}) {
+    const W = 760, H = o.h || 240, pl = 34, pr = 14, pt = 12, pb = 28;
+    const x = w => pl + (w / maxWeeks) * (W - pl - pr);
+    const y = n => pt + (1 - n / 20) * (H - pt - pb);
+    const pts = timeline.map(t => ({ w: t.week, i: t.counts[2] + t.counts[3] + t.counts[4], tr: t.counts[3] + t.counts[4], a: t.counts[4] }));
+    const stepArea = key => {
+      let d = `M${x(pts[0].w)},${y(0)}`;
+      pts.forEach((p, k) => { if (k) d += ` L${x(p.w)},${y(pts[k - 1][key])}`; d += ` L${x(p.w)},${y(p[key])}`; });
+      const last = pts[pts.length - 1];
+      return d + ` L${x(last.w)},${y(0)} Z`;
+    };
+    const grid = [0, 4, 8, 12, 16, 20].map(n => `<line class="grid" x1="${pl}" x2="${W - pr}" y1="${y(n)}" y2="${y(n)}"/><text x="${pl - 8}" y="${y(n) + 4}" text-anchor="end">${n}</text>`).join('');
+    const ticks = Array.from({ length: Math.floor(maxWeeks / 8) + 1 }, (_, i) => i * 8).map(w => `<text x="${x(w)}" y="${H - 8}" text-anchor="middle">${w}</text>`).join('');
+    return `<div class="chart"><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Adoption over time">${grid}${ticks}
+      <path d="${stepArea('i')}" fill="var(--st2)" opacity=".25"/><path d="${stepArea('tr')}" fill="var(--st3)" opacity=".45"/><path d="${stepArea('a')}" fill="var(--st4)" opacity=".85"/>
+      <line x1="${pl}" x2="${W - pr}" y1="${y(CRITICAL_MASS)}" y2="${y(CRITICAL_MASS)}" stroke="var(--brand)" stroke-width="1.6" stroke-dasharray="5 4"/>
+      <text x="${W - pr}" y="${y(CRITICAL_MASS) - 6}" text-anchor="end" style="fill:var(--brand);font-weight:700">Critical mass</text>
+      <text x="${(W + pl) / 2}" y="${H + 6}" text-anchor="middle" style="font-weight:600">Week</text></svg>
+      <div class="legend" style="margin-top:12px"><span><i style="background:var(--st4)"></i>Adoption</span><span><i style="background:var(--st3);opacity:.6"></i>Trial or beyond</span><span><i style="background:var(--st2);opacity:.4"></i>Interest or beyond</span></div></div>`;
+  }
+
+  const TONE = { good: ['good', 'Well judged'], mixed: ['warn', 'Trade-off'], poor: ['bad', 'Costly'] };
+  const OUTCOME = { success: ['good', 'Worked'], partial: ['warn', 'Partly worked'], mistimed: ['bad', 'Mistimed'], blocked: ['bad', 'Blocked'], wait: ['', 'Waited'] };
+  function viewHistory() {
+    const g = app.game;
+    const rows = g.history.slice().reverse().map(h => {
+      const moved = Object.entries(h.moved).map(([st, ids]) => `${ids.length} → ${STAGES[st]}`).join(', ');
+      if (h.lever === 'dilemma') {
+        const dl = DILEMMAS[h.dilemma], opt = dl.options[h.option];
+        return `<tr><td class="muted">${h.weekStart}</td><td><b>Critical decision: ${esc(dl.title)}</b><div class="tiny muted">${esc(opt.label)}</div></td>
+          <td><span class="pill ${TONE[h.tone][0]}">${TONE[h.tone][1]}</span></td><td>${Object.entries(h.moved).map(([st, ids]) => `${ids.length} → ${STAGES[st]}`).join(', ') || '<span class="muted">—</span>'}</td>
+          <td style="font-weight:700;color:${h.credDelta > 0 ? 'var(--good)' : h.credDelta < 0 ? 'var(--bad)' : 'var(--ink-3)'}">${h.credDelta > 0 ? '+' : ''}${h.credDelta || '0'}</td></tr>`;
+      }
+      const [tone, label] = OUTCOME[h.outcome];
+      return `<tr><td class="muted">${h.weekStart}</td><td><b>${h.lever === 'wait' ? 'Waited one week' : esc(L[h.lever].name)}</b>${Array.isArray(h.targets) && h.targets.length ? `<div class="tiny muted">${listNames(h.targets)}</div>` : h.targets === 'org' ? '<div class="tiny muted">Entire organisation</div>' : ''}</td>
+        <td><span class="pill ${tone}">${label}</span></td><td>${moved || '<span class="muted">—</span>'}</td>
+        <td style="font-weight:700;color:${h.credDelta > 0 ? 'var(--good)' : h.credDelta < 0 ? 'var(--bad)' : 'var(--ink-3)'}">${h.credDelta > 0 ? '+' : ''}${h.credDelta || '0'}</td></tr>`;
+    }).join('');
+    return `<div class="section-head"><div><h2>History</h2><p>${plural(g.history.length, 'decision')} so far.</p></div></div>
+      <div class="card">${adoptionChart(g.timeline, g.maxWeeks)}</div>
+      <div class="card" style="overflow-x:auto">${g.history.length ? `<table class="hist-table"><thead><tr><th>Week</th><th>Decision</th><th>Outcome</th><th>Stage moves</th><th>Cred.</th></tr></thead><tbody>${rows}</tbody></table>` : '<div class="empty">No decisions yet.</div>'}</div>`;
+  }
+
+  /* ---------- playbook ---------- */
+  function viewPlaybook() {
+    const sc = app.game ? S[app.game.scenarioId] : null;
+    const qi = sc ? quadIndex(sc) : -1;
+    const ladder = [['Awareness', 'Knows the change is happening and roughly why.'], ['Interest', 'Sees how it affects them; willing to explore.'], ['Trial', 'Actually using the tools — the pivotal stage.'], ['Adoption', 'Uses it as the new normal and advocates for it.']];
+    return `<div class="section-head"><div><h2>Playbook</h2><p>The ideas behind the simulation.</p></div></div>
+      <div class="grid-2">
+        <div class="card"><h3>The change agent's strategy matrix</h3><p class="small muted">Power is contextual, and timing changes the rules.</p>
+          <div class="concept-matrix">${CONCEPTS.matrix.map((m, i) => `<div class="cell ${i === qi ? 'me' : ''}"><b>${esc(m.name)}</b><div class="tiny muted" style="margin-bottom:6px">${m.power === 'high' ? 'High' : 'Low'} power · ${m.urgency === 'high' ? 'high' : 'low'} urgency${i === qi ? ' · <b style="color:var(--brand)">you are here</b>' : ''}</div><div class="small">${esc(m.text)}</div></div>`).join('')}</div></div>
+        <div class="card"><h3>How individuals change</h3><p class="small muted">Change is a ladder each person climbs, in order.</p>
+          <div class="ladder">${ladder.map(([n, t], i) => `<div style="background:${ST_COLOR[i + 1]}"><b>${n}</b><span>${t}</span></div>`).join('')}</div>
+          <h3 style="margin-top:18px">How the organisation changes</h3>
+          <table class="hist-table"><tbody>
+            <tr><td><b>Mobilise</b></td><td class="small">Make the case and build the coalition.</td><td class="small muted">Awareness → Interest</td></tr>
+            <tr><td><b>Movement</b></td><td class="small">Build momentum through visible wins.</td><td class="small muted">Interest → Trial</td></tr>
+            <tr><td><b>Sustain</b></td><td class="small">Embed it in systems, structures and norms.</td><td class="small muted">Trial → Adoption</td></tr>
+          </tbody></table></div>
+      </div>
+      <div class="grid-2" style="margin-top:16px">
+        <div class="card"><h3>The costs of change</h3><p class="small muted">People resist what change costs them, not change itself. Lowering a cost often beats raising the urgency.</p>
+          <ul class="clean">${CONCEPTS.costs.map(c => `<li><b>${esc(c.name)}</b> — ${esc(c.text)}</li>`).join('')}</ul></div>
+        <div class="card"><h3>Authority by role</h3><p class="small muted">Levers above your level need senior sponsors: one level short needs 2 sponsors, two or more levels short needs 3.</p>
+          <table class="hist-table"><thead><tr><th>Lever</th><th>Needs</th>${SCENARIOS.map(x => `<th class="tiny">${esc(x.level.replace('Corporate ', ''))}</th>`).join('')}</tr></thead><tbody>
+          ${LEVERS.filter(x => x.command).map(x => `<tr><td class="small"><b>${esc(x.name)}</b></td><td class="small">${esc(LEVELS[x.authority])}</td>${SCENARIOS.map(sc2 => { const n = sc2.authority >= x.authority ? 0 : Math.min(3, (x.authority - sc2.authority) * 2); return `<td class="small">${n ? n + ' sponsors' : '<span style="color:var(--good);font-weight:700">Alone</span>'}</td>`; }).join('')}</tr>`).join('')}
+          </tbody></table></div>
+      </div>
+      <div class="grid-2" style="margin-top:16px">
+        <div class="card"><h3>Lever families</h3>
+          <p class="small"><span class="kind enabling"></span><b>Enabling levers</b> are less disruptive: listening, communicating, piloting, training, storytelling. They build readiness and credibility.</p>
+          <p class="small"><span class="kind substantive"></span><b>Substantive levers</b> are more disruptive: goals and deadlines, values, incentives, restructuring, confronting resisters. Powerful — and costly if mistimed.</p>
+          <p class="small muted" style="margin:0">Network effects matter: a lever pulled on a well-connected person travels further.</p></div>
+      </div>`;
+  }
+
+  /* ---------- debrief ---------- */
+  function viewDebrief() {
+    const g = app.game, sc = S[g.scenarioId];
+    const s = E.score(g), ins = E.insights(g);
+    const head = { 'critical-mass': ['You reached the tipping point', `${s.adopters} of 20 key people genuinely adopted the AI programme by week ${g.week}${g.maxWeeks - g.week > 0 ? `, ${plural(g.maxWeeks - g.week, 'week')} ahead of the deadline` : ', right on the deadline'}.`],
+      credibility: ['You lost the room', `Your credibility fell to zero in week ${g.week}. People stopped listening, and the programme stalled with ${s.adopters} adopters.`],
+      time: ['Time ran out', `By week ${g.week}, ${s.adopters} of 20 people had adopted — short of the critical mass of ${CRITICAL_MASS}.`],
+      ended: ['You ended the simulation', `You stopped in week ${g.week} with ${s.adopters} adopters.`] }[g.endReason] || ['Simulation complete', ''];
+    const C = 2 * Math.PI * 62;
+    const rec = E.resultRecord(g), code = E.encodeResult(rec);
+    const tl = g.history.filter(h => h.lever !== 'wait' && h.lever !== 'dilemma').map(h => `<span class="tl" style="--c:${h.outcome === 'success' ? 'var(--good)' : h.outcome === 'partial' ? 'var(--warn)' : 'var(--bad)'}">w${h.weekStart} · ${esc(L[h.lever].name)}</span>`).join('');
+    return `<div class="card"><div class="debrief-hero">
+        <div class="ring"><svg viewBox="0 0 150 150"><circle cx="75" cy="75" r="62" fill="none" stroke="var(--surface-2)" stroke-width="14"/>
+          <circle cx="75" cy="75" r="62" fill="none" stroke="${s.reached ? 'var(--good)' : 'var(--brand)'}" stroke-width="14" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${C * (1 - s.total / 100)}"/></svg>
+          <div class="val"><div><b>${s.total}</b><span>Grade ${s.grade}</span></div></div></div>
+        <div><div class="kicker">Scenario ${sc.number} · ${esc(sc.title)}${g.team ? ' · ' + esc(g.team) : ''}</div><h1 style="margin-bottom:8px">${head[0]}</h1><p class="muted" style="font-size:16px">${head[1]}</p>
+          <div class="breakdown">
+            <div class="fact"><span>Adoption</span><b>${s.adoption} / 55</b></div><div class="fact"><span>Momentum</span><b>${s.progress} / 10</b></div>
+            <div class="fact"><span>Credibility</span><b>${s.cred} / 15</b></div><div class="fact"><span>Speed</span><b>${s.speed} / 20</b></div>
+          </div></div></div></div>
+      <div class="card"><h3>Your adoption curve</h3>${adoptionChart(g.timeline, g.maxWeeks)}</div>
+      <div class="card"><h3>What the simulation noticed</h3><div class="insights">${ins.map(i => `<div class="insight ${i.tone}"><span class="ic">${icon(i.tone === 'good' ? 'check' : 'warn')}</span><div><b>${esc(i.title)}</b><p>${esc(i.text)}</p></div></div>`).join('')}</div></div>
+      ${g.choices && g.choices.length ? `<div class="card"><h3>Your critical decisions</h3><div class="insights">${g.choices.map(([id, i, tone]) => { const dl = DILEMMAS[id], o = dl.options[i]; return `<div class="insight ${tone === 'good' ? 'good' : 'warn'}"><span class="ic">${icon(tone === 'good' ? 'check' : 'warn')}</span><div><b>${esc(dl.title)}: ${esc(o.label)}</b><p><span class="pill ${TONE[tone][0]}" style="margin-right:6px">${TONE[tone][1]}</span>${esc(o.lesson)}</p></div></div>`; }).join('')}</div></div>` : ''}
+      <div class="card"><h3>Your sequence of levers</h3><div class="timeline">${tl || '<span class="muted">No levers pulled.</span>'}</div>
+        <p class="tiny muted" style="margin:10px 0 0">Green worked · amber partly worked · red mistimed or blocked.</p></div>
+      <div class="grid-2" style="margin-top:16px">
+        <div class="card"><h3>Reflect</h3><ol class="reflect">
+          <li><b>The credibility ledger.</b> When did your credibility drop most? Which lever did you pull too early because the situation felt urgent? Where at work does urgency make you rush past people's readiness?</li>
+          <li><b>The cost of change.</b> Pick one cost — fear of loss, a new identity, new competencies, or time and energy. What could a leader do to lower that cost, rather than just raise the urgency?</li>
+          <li><b>Reacting or responding.</b> Recall a moment when AI news or a change at work set off an automatic reaction in you. What story did you tell yourself? What would a deliberate response have looked like?</li>
+          <li><b>Your seat.</b> Which of the four roles is closest to your own? Which levers can you pull alone, whose sponsorship do you need, and which critical decision would you find hardest?</li></ol></div>
+        <div class="card"><h3>${g.mode === 'class' ? 'Submit your result' : 'Save your result'}</h3>
+          <p class="small muted">${g.mode === 'class' ? 'Copy this result code and send it to your facilitator, or download the file.' : 'Keep a record, or share it with a facilitator to compare with others.'}</p>
+          <div class="code-box" id="result-code">${esc(code)}</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px" class="no-print">
+            <button class="btn btn-sm btn-accent" data-act="copy-code">${icon('copy')}Copy code</button>
+            <button class="btn btn-sm" data-act="download-result">${icon('download')}Download result</button>
+            <button class="btn btn-sm" data-act="print">${icon('print')}Print debrief</button></div>
+          <div class="divider"></div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap" class="no-print"><button class="btn btn-primary" data-act="replay">${icon('refresh')}Play this scenario again</button><button class="btn" data-act="go-home">Try another scenario</button></div>
+        </div>
+      </div>`;
+  }
+
+  /* ---------- facilitator ---------- */
+  function facRecords() {
+    const f = app.fac;
+    return f.records.filter(r => f.session === 'all' || (r.session || '') === f.session);
+  }
+  function viewFacilitator() {
+    const f = app.fac;
+    const recs = facRecords();
+    const sessions = [...new Set(f.records.map(r => r.session || ''))];
+    const sorters = { score: (a, b) => b.score - a.score, adopters: (a, b) => b.adopters - a.adopters, cred: (a, b) => b.cred - a.cred, weeks: (a, b) => a.weeks - b.weeks, team: (a, b) => a.team.localeCompare(b.team) };
+    const sorted = recs.slice().sort(sorters[f.sort] || sorters.score);
+    const avg = (arr, k) => arr.length ? (arr.reduce((s, r) => s + (+r[k]), 0) / arr.length) : 0;
+    const byScn = SCENARIOS.map(sc => { const rs = recs.filter(r => r.scenario === sc.id); return { sc, n: rs.length, score: avg(rs, 'score'), cm: rs.length ? rs.filter(r => r.reached).length / rs.length : 0, cred: avg(rs, 'cred'), weeks: avg(rs, 'weeks') }; });
+    const leverUse = LEVERS.map(l => {
+      const teams = recs.filter(r => r.levers.some(x => x[0] === l.id)).length;
+      const pulls = recs.reduce((s, r) => s + r.levers.filter(x => x[0] === l.id).length, 0);
+      const misses = recs.reduce((s, r) => s + r.levers.filter(x => x[0] === l.id && (x[2] === 'm' || x[2] === 'b')).length, 0);
+      return { l, teams, pulls, misses };
+    }).sort((a, b) => b.pulls - a.pulls);
+    const maxPulls = Math.max(1, ...leverUse.map(x => x.pulls));
+    const curves = recs.slice(0, 40).map((r, i) => {
+      const max = r.maxWeeks || 96;
+      const W = 760, H = 220, pl = 34, pr = 14, pt = 10, pb = 26;
+      const x = w => pl + (w / 104) * (W - pl - pr), y = n => pt + (1 - n / 20) * (H - pt - pb);
+      let d = ''; r.curve.forEach((c, k) => { d += `${k ? ' L' : 'M'}${x(c[0])},${y(k ? r.curve[k - 1][1] : c[1])} L${x(c[0])},${y(c[1])}`; });
+      const hue = (i * 47) % 360;
+      return `<path d="${d}" fill="none" stroke="hsl(${hue} 60% 50%)" stroke-width="2" opacity=".85"><title>${esc(r.team)} · S${S[r.scenario].number} · ${r.score}</title></path>`;
+    }).join('');
+    const W = 760, H = 220, pl = 34, pr = 14, pt = 10, pb = 26;
+    const cx = w => pl + (w / 104) * (W - pl - pr), cy = n => pt + (1 - n / 20) * (H - pt - pb);
+    const curveSvg = `<div class="chart"><svg viewBox="0 0 ${W} ${H}">${[0, 4, 8, 12, 16, 20].map(n => `<line class="grid" x1="${pl}" x2="${W - pr}" y1="${cy(n)}" y2="${cy(n)}"/><text x="${pl - 8}" y="${cy(n) + 4}" text-anchor="end">${n}</text>`).join('')}
+      ${[0, 16, 32, 48, 64, 80, 96].map(w => `<text x="${cx(w)}" y="${H - 6}" text-anchor="middle">${w}</text>`).join('')}
+      <line x1="${pl}" x2="${W - pr}" y1="${cy(CRITICAL_MASS)}" y2="${cy(CRITICAL_MASS)}" stroke="var(--brand)" stroke-dasharray="5 4"/>${curves}</svg></div>`;
+
+    return `<div class="section-head"><div><div class="kicker">Facilitator</div><h2 style="margin:0">Class dashboard</h2><p>Collect result codes from teams, compare outcomes and lead the debrief. Everything stays in this browser.</p></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">${app.game ? `<button class="btn" data-act="view" data-view="${app.game.ended ? 'debrief' : 'decide'}">Back to my game</button>` : `<button class="btn" data-act="go-home">${icon('home')}Home</button>`}</div></div>
+      <div class="grid-2">
+        <div class="card"><h3>Run a class session</h3>
+          <ol class="clean small"><li>Create a session code and put it on the screen.</li><li>Teams open this file, choose <b>Class session</b>, enter their team name and the code, and pick the scenario you assign.</li><li>At the end, each team copies its result code and sends it to you (chat, form or email), or sends the downloaded file.</li><li>Paste the codes below and use the charts for the debrief.</li></ol>
+          <div style="display:flex;gap:10px;align-items:center;margin-top:12px;flex-wrap:wrap"><button class="btn btn-accent btn-sm" data-act="new-session">Create session code</button>${f.newCode ? `<span class="pill brand" style="font-size:18px;padding:6px 14px;letter-spacing:.08em">${esc(f.newCode)}</span><button class="btn btn-sm btn-ghost" data-act="copy-session">${icon('copy')}</button>` : ''}</div>
+        </div>
+        <div class="card"><h3>Add results</h3>
+          <div class="field"><textarea id="fac-paste" rows="4" placeholder="Paste one or more result codes (TP1.…), one per line"></textarea></div>
+          <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;align-items:center">
+            <button class="btn btn-primary btn-sm" data-act="fac-add">Add codes</button>
+            <label class="btn btn-sm" style="cursor:pointer">${icon('upload')}Upload files<input type="file" id="fac-files" accept=".json,.txt" multiple hidden></label>
+            <span class="tiny muted">or drop files here</span></div>
+        </div>
+      </div>
+      ${f.records.length ? `
+      <div class="card" style="margin-top:16px">
+        <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:12px">
+          <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><h3 style="margin:0">Leaderboard</h3>
+            <select data-input="fac-session" class="btn btn-sm">${['all', ...sessions].map(s => `<option value="${esc(s)}" ${f.session === s ? 'selected' : ''}>${s === 'all' ? 'All sessions' : s ? 'Session ' + esc(s) : 'No session'}</option>`).join('')}</select></div>
+          <div style="display:flex;gap:8px"><button class="btn btn-sm" data-act="fac-csv">${icon('download')}Export CSV</button><button class="btn btn-sm btn-ghost" data-act="fac-clear">${icon('trash')}Clear all</button></div></div>
+        <div class="grid-3" style="grid-template-columns:repeat(4,1fr);margin-bottom:14px">
+          <div class="fact"><span>Teams</span><b>${recs.length}</b></div><div class="fact"><span>Average score</span><b>${avg(recs, 'score').toFixed(0)}</b></div>
+          <div class="fact"><span>Reached critical mass</span><b>${recs.length ? Math.round(recs.filter(r => r.reached).length / recs.length * 100) : 0}%</b></div><div class="fact"><span>Average credibility</span><b>${avg(recs, 'cred').toFixed(1)}</b></div></div>
+        <div style="overflow-x:auto"><table class="lb"><thead><tr><th>#</th>${[['team', 'Team'], ['', 'Scenario'], ['score', 'Score'], ['adopters', 'Adopters'], ['cred', 'Credibility'], ['weeks', 'Weeks used'], ['', 'Outcome'], ['', '']].map(([k, t]) => `<th ${k ? `data-act="fac-sort" data-k="${k}"` : ''}>${t}${f.sort === k ? ' ▾' : ''}</th>`).join('')}</tr></thead>
+          <tbody>${sorted.map((r, i) => `<tr><td class="rank">${i + 1}</td><td><b>${esc(r.team)}</b>${r.session ? `<div class="tiny muted">${esc(r.session)}</div>` : ''}</td><td>S${S[r.scenario].number} ${esc(S[r.scenario].title)}</td>
+            <td><b>${r.score}</b> <span class="pill">${r.grade}</span></td><td>${r.adopters}/20</td><td>${r.cred}/10</td><td>${r.weeks}/${r.maxWeeks}</td>
+            <td><span class="pill ${r.reached ? 'good' : r.end === 'credibility' ? 'bad' : 'warn'}">${r.reached ? 'Tipping point' : r.end === 'credibility' ? 'Lost the room' : 'Out of time'}</span></td>
+            <td><button class="btn btn-ghost btn-sm" data-act="fac-del" data-i="${f.records.indexOf(r)}" title="Remove">${icon('x')}</button></td></tr>`).join('')}</tbody></table></div>
+      </div>
+      <div class="grid-2" style="margin-top:16px">
+        <div class="card"><h3>Adoption curves</h3><p class="small muted">Adopters over time for each team. Hover a line to see the team.</p>${curveSvg}</div>
+        <div class="card"><h3>By scenario</h3><table class="hist-table"><thead><tr><th>Scenario</th><th>Teams</th><th>Avg score</th><th>Tipping point</th><th>Avg cred.</th></tr></thead><tbody>
+          ${byScn.map(b => `<tr><td><b>S${b.sc.number}</b> ${esc(b.sc.title)}</td><td>${b.n}</td><td>${b.n ? b.score.toFixed(0) : '—'}</td><td>${b.n ? Math.round(b.cm * 100) + '%' : '—'}</td><td>${b.n ? b.cred.toFixed(1) : '—'}</td></tr>`).join('')}</tbody></table>
+          <h3 style="margin-top:18px">Debrief prompts</h3><ul class="clean small"><li>Which teams reached the tipping point fastest — and what did their first five moves have in common?</li><li>Where did credibility drop most across the class? Which lever was most often mistimed?</li><li>Compare a Manager team and a C-suite team. How did their sequences differ, and when did each reach for authority?</li><li>Which critical decision split the class most? What made the poor option tempting?</li><li>Who addressed fear of loss, and when? What happened to the frontline?</li></ul></div>
+      </div>
+      ${(() => {
+        const ids = Object.keys(DILEMMAS).filter(id => recs.some(r => (r.dilemmas || []).some(c => c[0] === id)));
+        if (!ids.length) return '';
+        return `<div class="card" style="margin-top:16px"><h3>Critical decisions across teams</h3><p class="small muted">How teams chose when it mattered. Green = well judged, amber = trade-off, red = costly.</p>
+          <div class="grid-2">${ids.map(id => { const dl = DILEMMAS[id]; const tot = recs.filter(r => (r.dilemmas || []).some(c => c[0] === id)).length;
+            return `<div><b class="small">${esc(dl.title)}</b> <span class="tiny muted">(${tot} team${tot === 1 ? '' : 's'})</span><div class="bars" style="margin-top:6px">${dl.options.map((o, i) => { const n = recs.filter(r => (r.dilemmas || []).some(c => c[0] === id && c[1] === i)).length;
+              return `<div class="row" style="grid-template-columns:1fr 90px 28px"><span class="tiny">${String.fromCharCode(65 + i)}. ${esc(o.label)}</span><div class="track"><span style="width:${tot ? n / tot * 100 : 0}%;background:${o.tone === 'good' ? 'var(--good)' : o.tone === 'mixed' ? 'var(--warn)' : 'var(--bad)'}"></span></div><b class="tiny">${n}</b></div>`; }).join('')}</div></div>`; }).join('')}</div></div>`;
+      })()}
+      <div class="card" style="margin-top:16px"><h3>Lever usage across teams</h3><p class="small muted">Bar = total pulls. Red share = mistimed or blocked.</p><div class="bars">
+        ${leverUse.filter(x => x.pulls).map(x => `<div class="row"><span>${esc(x.l.name)}</span><div class="track" style="display:flex"><span style="width:${(x.pulls - x.misses) / maxPulls * 100}%;border-radius:4px 0 0 4px"></span><span style="width:${x.misses / maxPulls * 100}%;background:var(--bad);border-radius:0 4px 4px 0"></span></div><b class="small">${x.pulls}</b></div>`).join('')}
+      </div></div>` : `<div class="card empty" style="margin-top:16px"><h3>No results yet</h3><p class="small">Results appear here once you paste codes or upload files from teams.</p></div>`}`;
+  }
+
+  /* ---------- modal & drawer ---------- */
+  function newsModal() {
+    const h = app.news; if (!h) return '';
+    const g = app.game;
+    const isDl = h.lever === 'dilemma';
+    const l = h.lever === 'wait' || isDl ? null : L[h.lever];
+    const msg = isDl ? h.result : { success: 'You had sufficient credibility and timed this lever well.', partial: 'The lever landed — but not on everyone you chose.', mistimed: 'This lever was mistimed.', blocked: 'This lever was blocked.', wait: 'A quiet week.' }[h.outcome];
+    const moved = Object.entries(h.moved).sort((a, b) => a[0] - b[0]);
+    const credCls = h.credDelta > 0 ? 'up' : h.credDelta < 0 ? 'down' : '';
+    const phaseMsg = g.phase !== h.phaseAtStart ? `<div class="notice info">${icon('up')}<span>You have moved the company from <b>${PHASES[h.phaseAtStart]}</b> into the <b>${PHASES[g.phase]}</b> phase.</span></div>` : '';
+    const endMsg = g.ended ? `<div class="notice ${g.endReason === 'critical-mass' ? 'info' : 'bad'}">${icon(g.endReason === 'critical-mass' ? 'check' : 'warn')}<span>${g.endReason === 'critical-mass' ? '<b>You reached critical mass.</b> The change is now self-sustaining.' : g.endReason === 'credibility' ? '<b>Your credibility is gone.</b> The simulation is over.' : '<b>You are out of time.</b> The simulation is over.'}</span></div>` : '';
+    return `<div class="overlay" role="dialog" aria-modal="true" aria-labelledby="news-title"><div class="modal">
+      <div class="modal-head"><div><div class="news-kicker">News for week ${h.weekEnd}</div><h2 id="news-title" style="margin:6px 0 0">${isDl ? esc(DILEMMAS[h.dilemma].title) : l ? esc(l.name) : 'You waited a week'}</h2>
+        ${isDl ? `<div class="small muted" style="margin-top:4px">You chose: <b>${esc(DILEMMAS[h.dilemma].options[h.option].label)}</b></div>` : ''}
+        <p class="outcome" style="color:${isDl ? (h.tone === 'good' ? 'var(--good)' : h.tone === 'mixed' ? 'var(--warn)' : 'var(--bad)') : h.outcome === 'success' ? 'var(--good)' : h.outcome === 'partial' ? 'var(--warn)' : h.outcome === 'wait' ? 'var(--ink-2)' : 'var(--bad)'}">${esc(msg)}</p></div>
+        <div class="cred-box ${credCls}"><div class="n">${g.cred}</div><small>${h.credDelta > 0 ? `Up ${h.credDelta}` : h.credDelta < 0 ? `Down ${-h.credDelta}` : 'No change'}</small></div></div>
+      <div class="modal-body">
+        ${h.notes.map(n => `<p style="color:var(--ink-2)">${esc(n)}</p>`).join('')}
+        ${isDl ? `<div class="notice info">${icon('info')}<span><b>Lesson:</b> ${esc(h.lesson)}</span></div>
+          ${Object.keys(h.moved).length ? `<div class="moved">${Object.entries(h.moved).sort((a, b) => a[0] - b[0]).map(([st, ids]) => `<div class="moved-col"><h4><i style="background:${ST_COLOR[st]}"></i>Entered ${STAGES[st]}</h4>${ids.map(id => `<div>${esc(P[id].name)}</div>`).join('')}</div>`).join('')}</div>` : ''}` : ''}
+        ${h.events.map(e => `<div class="notice warn">${icon('info')}<span>${esc(e)}</span></div>`).join('')}
+        ${l ? `<div class="divider"></div><h4>Effect on people</h4><p style="margin:0 0 4px"><b>${plural(h.directImpacted, 'person', 'people')}</b> directly influenced · <b>${plural(h.indirectImpacted, 'person', 'people')}</b> through their networks</p>
+        ${moved.length ? `<div class="moved">${moved.map(([st, ids]) => `<div class="moved-col"><h4><i style="background:${ST_COLOR[st]}"></i>Entered ${STAGES[st]}</h4>${ids.map(id => `<div>${esc(P[id].name)}</div>`).join('')}</div>`).join('')}</div>` : `<p class="muted">Nobody changed stage this time${h.directImpacted ? ' — but influence builds up, and the next push may tip them' : ''}.</p>`}` : ''}
+        ${h.revealed.length ? `<div class="notice info">${icon('chat')}<span>You now know how ${listNames(h.revealed)} feel and who they are friends with. Check the Organisation and Network pages.</span></div>` : ''}
+        ${phaseMsg}${endMsg}
+      </div>
+      <div class="modal-foot">${g.pending && !g.ended ? `<span class="small" style="margin-right:auto;color:var(--brand);font-weight:650;align-self:center">${icon('warn')} A critical decision has come up</span>` : ''}<button class="btn btn-primary" data-act="close-news" autofocus>${g.ended ? 'See debrief' : g.pending ? 'Face the decision' : 'OK, got it'}</button></div></div></div>`;
+  }
+
+  function dilemmaModal() {
+    const g = app.game;
+    if (!g || !g.pending || app.news || app.view === 'home' || app.view === 'facilitator' || app.hideDilemma) return '';
+    const dl = DILEMMAS[g.pending], sc = S[g.scenarioId];
+    const whoId = dl.who === 'boss' ? sc.reportsTo : dl.who;
+    const who = whoId ? P[whoId] : null;
+    return `<div class="overlay" role="dialog" aria-modal="true" aria-labelledby="dl-title"><div class="modal">
+      <div class="modal-head"><div><div class="news-kicker" style="color:var(--brand)">Critical decision · week ${g.week}</div><h2 id="dl-title" style="margin:6px 0 0">${esc(dl.title)}</h2></div>
+        ${who ? `<span class="av" style="width:54px;height:54px;font-size:17px;background:${LV_COLOR[who.level]}" title="${esc(who.name)}">${initials(who.name)}</span>` : ''}</div>
+      <div class="modal-body"><p style="font-size:16px;color:var(--ink-2)">${esc(E.fillText(g, dl.text))}</p>
+        <h4 style="margin-top:6px">What do you do?</h4>
+        <div class="dl-options">${dl.options.map((o, i) => `<button class="dl-opt" data-act="choose" data-i="${i}"><b>${String.fromCharCode(65 + i)}. ${esc(o.label)}</b><span>${esc(o.detail)}</span></button>`).join('')}</div>
+        <p class="tiny muted" style="margin-top:12px">As a ${esc(asLevel(sc))}, some options carry different consequences than they would for someone more or less senior. There is no undo.</p>
+      </div>
+      <div class="modal-foot"><button class="btn btn-ghost btn-sm" data-act="hide-dilemma">Look at the organisation first</button></div></div></div>`;
+  }
+
+  function drawer() {
+    const id = app.drawer; if (!id || !app.game) return '';
+    const g = app.game, p = P[id], s = g.people[id];
+    const friends = E.friendsOf(id), cow = E.coworkersOf(id);
+    const mgr = p.manager ? P[p.manager].name : 'You';
+    return `<div class="overlay" data-act="close-drawer" style="background:rgba(15,12,8,.25);place-items:stretch"></div>
+      <aside class="drawer" role="dialog" aria-label="${esc(p.name)}">
+        <button class="btn btn-ghost btn-sm" style="position:absolute;top:14px;right:14px" data-act="close-drawer" aria-label="Close">${icon('x')}</button>
+        <div class="drawer-head"><span class="av" style="background:${LV_COLOR[p.level]}">${initials(p.name)}</span><div><h3 style="margin:0">${esc(p.name)}</h3><div class="muted small">${esc(p.title)}</div><div class="tiny muted">${esc(p.dept)} · reports to ${esc(mgr)}</div></div></div>
+        <div class="chips" style="margin-bottom:16px"><span class="pill" style="background:${s.stage ? ST_COLOR[s.stage] : 'var(--surface-2)'};color:${s.stage ? '#fff' : 'var(--ink-2)'}">${STAGES[s.stage]}</span><span class="pill">${LV_NAME[p.level]}</span>
+          ${s.interviewed && s.resisting ? '<span class="pill warn">Active resister</span>' : ''}${s.interviewed && s.fearful ? '<span class="pill bad">Fear of loss</span>' : ''}${s.interviewed && !s.resisting && p.resister ? '<span class="pill good">Resistance resolved</span>' : ''}</div>
+        <h4>Adoption ladder</h4>
+        <div class="meter" style="margin-bottom:18px">${[1, 2, 3, 4].map(i => `<i class="${s.stage >= i ? 'on' : ''}" style="height:8px;${s.stage >= i ? 'background:' + ST_COLOR[s.stage] : ''}"></i>`).join('')}</div>
+        ${s.interviewed ? `<h4>What they told you</h4><div class="quote"><b>${esc(p.stance)}</b><span>“${esc(p.concern)}”</span></div>
+          <h4>Informal network</h4><p class="small">${friends.length ? 'Friends with ' + friends.map(f => `<b>${esc(P[f].name)}</b>`).join(', ') : 'No close friends at work.'}</p>`
+        : `<div class="locked-box">${icon('chat')} You have not held a listening session with ${esc(first(id))}. Their views, worries and friendships are still unknown.</div>`}
+        <h4 style="margin-top:16px">Works directly with</h4><p class="small">${cow.map(c => esc(P[c].name)).join(', ')}${p.manager === null ? ', You' : ''}</p>
+      </aside>`;
+  }
+
+  /* ---------- render ---------- */
+  function render() {
+    const root = document.getElementById('app');
+    const scrollY = window.scrollY;
+    const picker = document.querySelector('.picker');
+    const pickerScroll = picker ? picker.scrollTop : 0;
+    const v = app.view;
+    let body = '';
+    if (v === 'home') body = viewHome();
+    else if (v === 'facilitator') body = viewFacilitator();
+    else if (!app.game) { app.view = 'home'; body = viewHome(); }
+    else body = ({ brief: viewBrief, dashboard: viewDashboard, network: viewNetwork, decide: viewDecide, history: viewHistory, playbook: viewPlaybook, debrief: viewDebrief }[v] || viewBrief)();
+    const showStatus = app.game && !['home', 'facilitator'].includes(app.view);
+    root.innerHTML = `<div class="app">${topBar()}<main class="main ${v === 'home' ? 'full' : ''}" id="main">${body}</main>${showStatus ? statusBar() : ''}</div>
+      ${newsModal()}${dilemmaModal()}${drawer()}${app.toast ? `<div class="toast" role="status">${esc(app.toast)}</div>` : ''}`;
+    window.scrollTo(0, scrollY);
+    const np = document.querySelector('.picker'); if (np) np.scrollTop = pickerScroll;
+    const af = document.querySelector('[autofocus]'); if (af) af.focus({ preventScroll: true });
+    bindFiles();
+  }
+  function go(view) { if (view === 'decide') app.hideDilemma = false; app.view = view; app.menu = false; app.drawer = null; window.scrollTo(0, 0); render(); }
+
+  /* ---------- actions ---------- */
+  function startGame(id) {
+    const h = app.home;
+    if (h.mode === 'class') {
+      if (!h.team.trim()) { toast('Enter your team name first'); document.getElementById('f-team')?.focus(); return; }
+      if (!h.session.trim()) { toast('Enter the session code from your facilitator'); document.getElementById('f-session')?.focus(); return; }
+    }
+    const seed = h.mode === 'class' ? 'session:' + h.session.trim().toUpperCase() : undefined;
+    app.game = E.newGame(id, { seed, mode: h.mode, team: h.mode === 'class' ? h.team.trim() : '', session: h.mode === 'class' ? h.session.trim().toUpperCase() : '' });
+    app.selLever = null; app.selTargets = []; app.netFocus = null;
+    save(); go('brief');
+  }
+
+  const actions = {
+    'go-home': () => go('home'),
+    view: el => go(el.dataset.view),
+    menu: () => { app.menu = !app.menu; render(); },
+    theme: () => {
+      const cur = document.documentElement.getAttribute('data-theme') || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      const next = cur === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next); store.set('tp_theme', next); app.menu = false; render();
+    },
+    mode: el => { app.home.mode = el.dataset.mode; render(); },
+    'pick-scenario': el => { app.home.scenario = el.dataset.id; render(); },
+    start: () => startGame(app.home.scenario),
+    resume: () => go('decide'),
+    restart: () => {
+      app.menu = false;
+      if (!confirm('Restart this scenario? Your current progress will be lost.')) { render(); return; }
+      const g = app.game;
+      app.game = E.newGame(g.scenarioId, { seed: g.mode === 'class' ? 'session:' + g.session : undefined, mode: g.mode, team: g.team, session: g.session });
+      app.selLever = null; app.selTargets = []; save(); go('brief');
+    },
+    replay: () => {
+      const g = app.game;
+      app.game = E.newGame(g.scenarioId, { seed: g.mode === 'class' ? 'session:' + g.session : undefined, mode: g.mode, team: g.team, session: g.session });
+      app.selLever = null; app.selTargets = []; save(); go('brief');
+    },
+    'export-game': () => { app.menu = false; download(`tipping-point-${app.game.scenarioId}-week${app.game.week}.json`, JSON.stringify(app.game, null, 1)); render(); },
+    'open-person': el => { app.drawer = el.dataset.id; render(); },
+    'close-drawer': () => { app.drawer = null; render(); },
+    'net-focus': el => { const id = el.dataset.id; app.netFocus = app.netFocus === id ? null : id; render(); },
+    'pick-lever': el => {
+      const id = el.dataset.id;
+      if (app.selLever !== id) { app.selLever = id; const l = L[id]; app.selTargets = l.scope === 'org' ? [] : app.selTargets.slice(0, l.scope); }
+      render();
+      if (window.innerWidth < 1000) document.querySelector('.lever-panel')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    },
+    'toggle-target': el => {
+      const id = el.dataset.id, l = L[app.selLever];
+      if (!l || l.scope === 'org') return;
+      const i = app.selTargets.indexOf(id);
+      if (i >= 0) app.selTargets.splice(i, 1);
+      else if (l.scope === 1) app.selTargets = [id];
+      else if (app.selTargets.length < l.scope) app.selTargets.push(id);
+      else { toast(`This lever reaches at most ${l.scope} people`); return; }
+      render();
+    },
+    'clear-targets': () => { app.selTargets = []; render(); },
+    submit: () => {
+      try {
+        const r = E.applyLever(app.game, app.selLever, app.selTargets);
+        app.game = r.state; app.news = r.decision; app.selTargets = [];
+        app.flash = Object.values(r.decision.moved).flat();
+        save(); render();
+      } catch (e) { toast(e.message); }
+    },
+    wait: () => { try { const r = E.wait(app.game); app.game = r.state; app.news = r.decision; save(); render(); } catch (e) { toast(e.message); } },
+    'close-news': () => {
+      app.news = null;
+      if (app.game.ended) { go('debrief'); return; }
+      if (app.selLever && !E.availability(app.game, app.selLever).ok) app.selLever = null;
+      render(); setTimeout(() => { app.flash = []; }, 1500);
+    },
+    choose: el => {
+      const r = E.resolveDilemma(app.game, +el.dataset.i);
+      app.game = r.state; app.news = r.decision; app.hideDilemma = false;
+      app.flash = Object.values(r.decision.moved).flat();
+      save(); render();
+    },
+    'hide-dilemma': () => { app.hideDilemma = true; render(); toast('Reopen the decision from the Decide page'); },
+    'show-dilemma': () => { app.hideDilemma = false; render(); },
+    'copy-code': () => copy(E.encodeResult(E.resultRecord(app.game))),
+    'download-result': () => { const r = E.resultRecord(app.game); download(`tipping-point-result-${(r.team || 'player').replace(/\W+/g, '-')}-S${S[r.scenario].number}.json`, JSON.stringify(r, null, 1)); },
+    print: () => window.print(),
+    'new-session': () => { const a = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789'; let c = ''; for (let i = 0; i < 6; i++) c += a[Math.floor(Math.random() * a.length)]; app.fac.newCode = c.slice(0, 3) + '-' + c.slice(3); render(); },
+    'copy-session': () => copy(app.fac.newCode),
+    'fac-add': () => { const ta = document.getElementById('fac-paste'); addCodes(ta.value); },
+    'fac-sort': el => { app.fac.sort = el.dataset.k; render(); },
+    'fac-del': el => { app.fac.records.splice(+el.dataset.i, 1); store.set('tp_fac', app.fac.records); render(); },
+    'fac-clear': () => { if (confirm('Remove all results from this dashboard?')) { app.fac.records = []; store.set('tp_fac', []); render(); } },
+    'fac-csv': () => {
+      const head = ['team', 'session', 'scenario', 'score', 'grade', 'adopters', 'reached', 'credibility', 'weeks_used', 'max_weeks', 'end', 'levers'];
+      const rows = facRecords().map(r => [r.team, r.session, 'S' + S[r.scenario].number, r.score, r.grade, r.adopters, r.reached, r.cred, r.weeks, r.maxWeeks, r.end, r.levers.map(x => `w${x[1]}:${x[0]}:${x[2]}`).join(' ')]);
+      const csv = [head, ...rows].map(r => r.map(c => `"${String(c).replace(/"/g, '""')}"`).join(',')).join('\n');
+      download('tipping-point-class-results.csv', csv, 'text/csv');
+    }
+  };
+
+  function addCodes(text) {
+    const parts = String(text).split(/\s+/).filter(Boolean);
+    let added = 0, bad = 0;
+    const tryAdd = rec => {
+      if (!rec || !rec.scenario || !S[rec.scenario] || !Array.isArray(rec.levers)) { bad++; return; }
+      const dup = app.fac.records.some(r => r.team === rec.team && r.at === rec.at && r.score === rec.score);
+      if (!dup) { app.fac.records.push(rec); added++; }
+    };
+    if (String(text).trim().startsWith('{')) { try { tryAdd(JSON.parse(text)); } catch (e) { bad++; } }
+    else parts.forEach(p => { try { tryAdd(E.decodeResult(p)); } catch (e) { bad++; } });
+    store.set('tp_fac', app.fac.records);
+    render();
+    toast(`${plural(added, 'result')} added${bad ? ` · ${bad} could not be read` : ''}`);
+  }
+  function bindFiles() {
+    const inp = document.getElementById('fac-files');
+    if (inp && !inp._bound) {
+      inp._bound = true;
+      inp.addEventListener('change', () => readFiles(inp.files));
+    }
+  }
+  function readFiles(files) {
+    [...files].forEach(f => { const r = new FileReader(); r.onload = () => addCodes(r.result); r.readAsText(f); });
+  }
+
+  document.addEventListener('click', e => {
+    const el = e.target.closest('[data-act]');
+    if (!el) { if (app.menu && !e.target.closest('.menu-wrap')) { app.menu = false; render(); } return; }
+    const fn = actions[el.dataset.act];
+    if (fn) { e.preventDefault(); if (el.dataset.act !== 'menu' && app.menu && !el.closest('.menu')) app.menu = false; fn(el); }
+  });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') { if (app.drawer) { app.drawer = null; render(); } else if (app.menu) { app.menu = false; render(); } }
+    if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('g.node')) { e.preventDefault(); actions['net-focus'](e.target); }
+  });
+  document.addEventListener('input', e => {
+    const k = e.target.dataset.input;
+    if (k === 'team') app.home.team = e.target.value;
+    if (k === 'session') app.home.session = e.target.value.toUpperCase();
+  });
+  document.addEventListener('change', e => {
+    if (e.target.dataset.input === 'fac-session') { app.fac.session = e.target.value; render(); }
+  });
+  document.addEventListener('dragover', e => { if (app.view === 'facilitator') { e.preventDefault(); } });
+  document.addEventListener('drop', e => { if (app.view === 'facilitator' && e.dataTransfer.files.length) { e.preventDefault(); readFiles(e.dataTransfer.files); } });
+
+  if (saved && !saved.ended) app.game = saved;
+  render();
+})();
+
+</script>
+</body>
+</html>
